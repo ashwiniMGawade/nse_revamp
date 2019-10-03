@@ -4,6 +4,7 @@
 
 require "application/controllers/BaseController.class.php";
 require "framework/helpers/paginate.php";
+require "framework/helpers/functions.php";
 
 class IndexController extends BaseController{
 
@@ -52,7 +53,7 @@ class IndexController extends BaseController{
         $where = '';
         if (isset($_GET['name']) && $_GET['name'] != '') {
             $serverName = urldecode($_GET['name']);
-            $where = 'LOWER(servername) =LOWER("'. $serverName.'") and ';
+            $where = 'LOWER(server) =LOWER("'. $serverName.'") and ';
         }
 
         if (isset($_GET['status']) && $_GET['status'] != '') {
@@ -60,16 +61,22 @@ class IndexController extends BaseController{
             $where .= 'LOWER(status) =LOWER("'.$status.'") and ';
         }
 
-        if (isset($_GET['startDate']) && $_GET['startDate'] != '') {
+        $fieldName ='startdate';
+        if (isset($_GET['startDate']) && $_GET['startDate'] != '' && isset($_GET['endDate']) && $_GET['endDate'] != '') {
             $startdate = urldecode($_GET['startDate']);
-            $where .= 'DATE(startdate) ="'.$startdate.'" and ';
-        }
-
-        if (isset($_GET['endDate']) && $_GET['endDate'] != '') {
-            $enddate = urldecode($_GET['endDate']);
-            $where .= 'DATE(enddate) ="'.$enddate.'" and ';
-        }
-
+            $enddate = urldecode($_GET['endDate']);            
+            $where .= '(DATE('.$fieldName.') between "'.$startdate. '" and "'.$enddate.'") and ';
+        } else {
+            if (isset($_GET['startDate']) && $_GET['startDate'] != '') {
+                $startdate = urldecode($_GET['startDate']);
+                $where .= 'DATE('.$fieldName.') ="'.$startdate.'" and ';
+            }
+    
+            if (isset($_GET['endDate']) && $_GET['endDate'] != '') {
+                $enddate = urldecode($_GET['endDate']);
+                $where .= 'DATE('.$fieldName.') ="'.$enddate.'" and ';
+            }    
+        } 
         $where .= " 1 ";
         return $where;
     }
@@ -77,7 +84,7 @@ class IndexController extends BaseController{
 
     public function copyChecksAction() {
         $where = $this->getConditionsData();       
-
+        $validStatusToAssign = ["success", "completed", "started", "in-progress", "failed"];
         $linuxCheckModel = new NseLogMgmtReportDataModel("nselogmanagementdata.nselogmanagementreportdata");
 
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];
@@ -86,8 +93,11 @@ class IndexController extends BaseController{
         $offset = $paginateOptions["offset"];
         $currentpage = $paginateOptions["currentpage"];
         $totalpages = $paginateOptions["totalpages"];
+        $sortingInfo = $this->getSortinginfo();
 
-        $checks = $linuxCheckModel->pageRows($offset, $rowsperpage, $where);
+        $checks = $linuxCheckModel->pageRows($offset, $rowsperpage, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
+
+        $url = $this->getUrl();
       
         $showServers = true;
         $serverType = "linux";      
@@ -104,10 +114,20 @@ class IndexController extends BaseController{
             "isActive" => false, 
             "link" => "index.php?p=linux"
         ];
+        if (isset($_GET['name']) && $_GET['name'] != '') {
+            $serverName = urldecode($_GET['name']);
+            $breadcrumbs[] =  (object) [
+                'title' => $serverName,
+                "isActive" => false,
+                "link" => "index.php?p=linux&name=".$serverName
+            ];
+        }
         $breadcrumbs[] =  (object) [
             'title' => 'Copy and Check',
             "isActive" => true
         ];
+
+       
         $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux");
 
         $pageContent = CURR_VIEW_PATH . "linuxCopiesChecks.php";
@@ -153,13 +173,14 @@ class IndexController extends BaseController{
 
     
     public function downloadAction(){
-        $where = $this->getConditionsData();      
+        $where = $this->getConditionsData();     
+        $sortingInfo = $this->getSortinginfo(); 
 
         $linuxCheckModel = new NseLogMgmtReportDataModel("nselogmanagementdata.nselogmanagementreportdata");
 
-        $data = $linuxCheckModel->pageRows(0, 1000, $where);
+        $data = $linuxCheckModel->pageRows(0, 1000, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
 
-        download_send_headers("data_export_" . date("Y-m-d") . ".csv");
+        download_send_headers("data_export_linux_" . date("Y-m-d") . ".csv");
         echo array2csv($data);
         die();
     

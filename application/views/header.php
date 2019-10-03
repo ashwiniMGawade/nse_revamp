@@ -24,7 +24,12 @@
         </ul>
       </li>
       <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Portal Link</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Out</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> <?php echo $_SESSION['user'];?> <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="index.php?p=auth&a=signout">Sign Out</a></li>
+        </ul>
+      </li>
+      <!-- <li><a href="index.php?p=auth&a=signout"><span class="glyphicon glyphicon-user"></span> Sign Out</a></li> -->
     </ul>
   </div>
 </nav>

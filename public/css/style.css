@@ -102,3 +102,6 @@ ul#serverList {
   top:-36px;
   right: -22px;
 }
+.fa.active{
+  color:red;
+}

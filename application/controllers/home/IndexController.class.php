@@ -28,7 +28,7 @@ class IndexController extends BaseController{
         $breadcrumbs = array();
         $breadcrumbs[] =  (object) [
             'title' => 'Home',
-            'link' =>  "/",
+            'link' =>  "index.php",
             "isActive" => "true"
           ];
         $lnavElement = array("element" => "Home", "link"=> "index.php");

@@ -324,20 +324,18 @@ class Model{
 
      */
 
-    public function pageRows($offset, $limit,$where = ''){
+    public function pageRows($offset, $limit,$where = '', $order_by='id', $sort = 'asc'){
 
         if (empty($where)){
 
-            $sql = "select * from {$this->table} limit $offset, $limit";
+            $sql = "select * from {$this->table} order by $order_by $sort  limit $offset, $limit";
 
         } else {
 
-            $sql = "select * from {$this->table}  where $where limit $offset, $limit";
+            $sql = "select * from {$this->table}  where $where  order by $order_by $sort limit $offset, $limit";
 
-        }
-
-       
-
+        }     
+        
         return $this->db->getAll($sql);
 
     }

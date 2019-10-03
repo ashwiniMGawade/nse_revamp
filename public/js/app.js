@@ -134,19 +134,21 @@ particlesJS('particles-js',
 
 
 $('.datepicker.start-date').datepicker({
-  format: 'mm/dd/yyyy',
+  format: 'yyyy-mm-dd',
   clearBtn:true,
   endDate:"0d",
   autoclose:true,
   defaultViewDate: "today",
-  todayHighlight: true
+  todayHighlight: true,
+  orientation:"bottom"
 });
 
 $('.datepicker.end-date').datepicker({
-  format: 'mm/dd/yyyy',
+  format: 'yyyy-mm-dd',
   clearBtn:true,
   endDate:"0d",
   autoclose:true,
   defaultViewDate: "today",
-  todayHighlight: true
+  todayHighlight: true,
+  orientation:"bottom"
 });

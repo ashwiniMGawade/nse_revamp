@@ -91,14 +91,18 @@ class IndexController extends BaseController{
 
     public function copiesAction() {       
         $where = $this->getConditionsData();
-        // $windowsCopyModel = new WindowsCopyModel("windowscopycheck.windows_copy");
-        // $rowsperpage = $GLOBALS['config']['rowsPerPage'];
-        // $paginateOptions = paginate( $windowsCopyModel, $rowsperpage, $where);
-        // $offset = $paginateOptions["offset"];
-        // $currentpage = $paginateOptions["currentpage"];
-        // $totalpages = $paginateOptions["totalpages"];
+        $validStatusToAssign = ["successful", "failed"];
+        $windowsCopyModel = new WindowsCopyModel("windowscopycheck.windows_copy");
+        $rowsperpage = $GLOBALS['config']['rowsPerPage'];
+        $paginateOptions = paginate( $windowsCopyModel, $rowsperpage, $where);
+        $offset = $paginateOptions["offset"];
+        $currentpage = $paginateOptions["currentpage"];
+        $totalpages = $paginateOptions["totalpages"];
+        $sortingInfo = $this->getSortinginfo();
 
-        $copies = []; // $windowsCopyModel->pageRows($offset, $rowsperpage, $where);
+        $copies = $windowsCopyModel->pageRows($offset, $rowsperpage, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
+
+        $url = $this->getUrl();
 
         $showServers = true;
         $serverType = "windows";
@@ -115,6 +119,14 @@ class IndexController extends BaseController{
             "isActive" => false, 
             "link" => "index.php?p=windows"
         ];
+        if (isset($_GET['name']) && $_GET['name'] != '') {
+            $serverName = urldecode($_GET['name']);
+            $breadcrumbs[] =  (object) [
+                'title' => $serverName,
+                "isActive" => false,
+                "link" => "index.php?p=windows&name=".$serverName
+            ];
+        }
         $breadcrumbs[] =  (object) [
             'title' => 'Copy',
             "isActive" => true
@@ -129,14 +141,18 @@ class IndexController extends BaseController{
 
     public function checksAction() {
         $where = $this->getConditionsData();
+        $validStatusToAssign = ["success", "failed"];
         $windowsCheckModel = new WindowsCheckModel("windowscopycheckone.windows_check");
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];
         $paginateOptions = paginate( $windowsCheckModel, $rowsperpage, $where);
         $offset = $paginateOptions["offset"];
         $currentpage = $paginateOptions["currentpage"];
         $totalpages = $paginateOptions["totalpages"];
+        $sortingInfo = $this->getSortinginfo();
 
-        $checks = $windowsCheckModel->pageRows($offset, $rowsperpage, $where);
+        $checks = $windowsCheckModel->pageRows($offset, $rowsperpage, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
+
+        $url = $this->getUrl();
 
         $showServers = true;
         $serverType = "windows";
@@ -153,6 +169,14 @@ class IndexController extends BaseController{
             "isActive" => false, 
             "link" => "index.php?p=windows"
         ];
+        if (isset($_GET['name']) && $_GET['name'] != '') {
+            $serverName = urldecode($_GET['name']);
+            $breadcrumbs[] =  (object) [
+                'title' => $serverName,
+                "isActive" => false,
+                "link" => "index.php?p=windows&name=".$serverName
+            ];
+        }
         $breadcrumbs[] =  (object) [
             'title' => 'Check',
             "isActive" => true
@@ -173,18 +197,25 @@ class IndexController extends BaseController{
 
         if (isset($_GET['status']) && $_GET['status'] != '') {
             $status = urldecode($_GET['status']);
-            $where .= 'LOWER(status) =LOWER("'.$status.'") and ';
+            $where .= 'LOWER(status) like "'.strtolower($status).'%" and ';
         }
 
-        if (isset($_GET['startDate']) && $_GET['startDate'] != '') {
+        $fieldName = (ACTION == 'copies'? 'startdate' : 'dateandtime');
+        if (isset($_GET['startDate']) && $_GET['startDate'] != '' && isset($_GET['endDate']) && $_GET['endDate'] != '') {
             $startdate = urldecode($_GET['startDate']);
-            $where .= 'DATE(startdate) ="'.$startdate.'" and ';
-        }
-
-        if (isset($_GET['endDate']) && $_GET['endDate'] != '') {
-            $enddate = urldecode($_GET['endDate']);
-            $where .= 'DATE(enddate) ="'.$enddate.'" and ';
-        }
+            $enddate = urldecode($_GET['endDate']);            
+            $where .= '(DATE('.$fieldName.') between "'.$startdate. '" and "'.$enddate.'") and ';
+        } else {
+            if (isset($_GET['startDate']) && $_GET['startDate'] != '') {
+                $startdate = urldecode($_GET['startDate']);
+                $where .= 'DATE('.$fieldName.') ="'.$startdate.'" and ';
+            }
+    
+            if (isset($_GET['endDate']) && $_GET['endDate'] != '') {
+                $enddate = urldecode($_GET['endDate']);
+                $where .= 'DATE('.$fieldName.') ="'.$enddate.'" and ';
+            }    
+        } 
 
         $where .= " 1 ";
         return $where;
@@ -193,13 +224,14 @@ class IndexController extends BaseController{
     public function downloadAction(){
         $where = $this->getConditionsData();
         $model =  new WindowsCopyModel("windowscopycheck.windows_copy");
+        $sortingInfo = $this->getSortinginfo(); 
       
         if (ACTION == "checks") {
             $model =  new WindowsCheckModel("windowscopycheckone.windows_check");
         }
-        $data = $model->pageRows(0, 1000, $where);
+        $data = $model->pageRows(0, 1000, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
 
-        download_send_headers("data_export_" . date("Y-m-d") . ".csv");
+        download_send_headers("data_export_windows_" . date("Y-m-d") . ".csv");
         echo array2csv($data);
         die();
     

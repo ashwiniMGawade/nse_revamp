@@ -1,6 +1,7 @@
 function exportTableToExcel (str) {
     var serverType = $("#export").attr('serverType');
     var urlParams = new URLSearchParams(location.search);
+    
     var name = urlParams.get('name');
     var urlAppend = (name) ? "&name="+name : '';
     var today = new Date();

@@ -1,4 +1,3 @@
-<?php if(count($copies) > 0) { ?>
 <div class="filters row">
   <div class="col-md-2">
     <button type="button" class="btn btn-warning" onclick="exportTableToExcel()" serverType="<?php echo PLATFORM; ?>" id="export" type="copies">Export to file</button>
@@ -7,19 +6,20 @@
   <?php include VIEW_PATH."filters.php" ?>
 </div>
 
-<div class="table-responsive">          
+<div class="table-responsive">     
+<?php if(count($copies) > 0) { ?>     
   <table class="table table-hover table-striped table-bordered" id="tblData">
     <thead>
       <tr>
-        <th>Server Name</th>
+        <th>Server Name<a href="<?php echo sortorder($url, 'servername'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('servername');?>"></i></a></th>
         <th>Local Drive</th>
         <th>Network Path</th>
         <th>Source Path</th>
         <th>Destination Path</th>
         <th>Destination Mount Point</th>
-        <th>Start DateTime</th>
-        <th>End DateTime</th>
-        <th>Status</th>
+        <th>Start DateTime <a href="<?php echo sortorder($url, 'startdate'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('startdate');?>"></i></a></th>
+        <th>End DateTime <a href="<?php echo sortorder($url, 'enddate'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('enddate');?>"></i></a></th>
+        <th>Status <a href="<?php echo sortorder($url, 'status'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('status');?>"></i></a></th>
         <th>Log Dump</th>
       </tr>
     </thead>
@@ -62,5 +62,5 @@
   <?php include VIEW_PATH."pagination.php" ?>
 </div>
 <?php }  else {
-    echo "<div class='row text-center'><h2> No Records found</h2></div>";   
-}?>
+     echo "<div class='text-center alert text-warning'><h2> No Records found</h2></div>";   
+}  ?>

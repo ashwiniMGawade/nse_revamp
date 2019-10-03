@@ -3,27 +3,13 @@
 // range of num links to show
 $range = 3;
 
-$url = $_SERVER['PHP_SELF'] . '?p='.PLATFORM.'&a='.ACTION;
+if (isset($_GET['order_by']) && $_GET['order_by'] != '') {
+   $url .= "&order_by=".$_GET['order_by'];
+} 
 
-if (isset($_GET['name']) && $_GET['name'] != '') {
-   $serverName = urldecode($_GET['name']);
-   $url .= "&name=". $serverName;
-}
-
-if (isset($_GET['status']) && $_GET['status'] != '') {
-   $status = urldecode($_GET['status']);
-   $url .= "&status=". $status;
-}
-
-if (isset($_GET['startDate']) && $_GET['startDate'] != '') {
-   $startdate = urldecode($_GET['startDate']);
-   $url .= "&startDate=". $startdate;
-}
-
-if (isset($_GET['endDate']) && $_GET['endDate'] != '') {
-   $enddate = urldecode($_GET['endDate']);
-   $url .= "&endtDate=". $enddate;
-}
+if (isset($_GET['sort']) && $_GET['sort'] != '') {
+   $url .= "&sort=".$_GET['sort'];
+} 
 echo "<ul class='pagination'>";
 
 // if not on page 1, don't show back links
