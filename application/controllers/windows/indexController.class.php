@@ -200,7 +200,7 @@ class IndexController extends BaseController{
             $where .= 'LOWER(status) like "'.strtolower($status).'%" and ';
         }
 
-        $fieldName = (ACTION == 'copies'? 'startdate' : 'dateandtime');
+        $fieldName = ($this->isChecks() ? 'dateandtime': 'startdate');
         if (isset($_GET['startDate']) && $_GET['startDate'] != '' && isset($_GET['endDate']) && $_GET['endDate'] != '') {
             $startdate = urldecode($_GET['startDate']);
             $enddate = urldecode($_GET['endDate']);            
@@ -226,7 +226,7 @@ class IndexController extends BaseController{
         $model =  new WindowsCopyModel("windowscopycheck.windows_copy");
         $sortingInfo = $this->getSortinginfo(); 
       
-        if (ACTION == "checks") {
+        if ($this->isChecks()) {
             $model =  new WindowsCheckModel("windowscopycheckone.windows_check");
         }
         $data = $model->pageRows(0, 1000, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
@@ -235,6 +235,17 @@ class IndexController extends BaseController{
         echo array2csv($data);
         die();
     
+    }
+
+    private function isChecks() {
+        if (ACTION == "checks") {
+            return true;
+        } else {
+            if(ACTION == "download" && isset($_GET['param']) && $_GET['param']=="checks") {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

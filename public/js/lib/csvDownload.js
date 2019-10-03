@@ -4,6 +4,7 @@ function exportTableToExcel (str) {
     
     var name = urlParams.get('name');
     var urlAppend = (name) ? "&name="+name : '';
+
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -15,8 +16,10 @@ function exportTableToExcel (str) {
      downloadLink = document.createElement("a");
     
      document.body.appendChild(downloadLink);
+     var param = "&param="+ urlParams.get('a');
+     var newUrl = (location.search).replace(urlParams.get('a'), 'download'); 
 
-     downloadLink.href = 'index.php?p='+serverType+'&a=download'+urlAppend;
+     downloadLink.href = "index.php"+newUrl+param; //'index.php?p='+serverType+'&a=download'+urlAppend;
 
      downloadLink.download = "data_export_" + today + ".csv";
 
