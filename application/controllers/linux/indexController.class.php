@@ -9,10 +9,6 @@ require "framework/helpers/functions.php";
 class IndexController extends BaseController{
 
     public function indexAction() {
-        
-        $linuxCheckModel = new NseLogMgmtReportDataModel("nselogmanagementdata.nselogmanagementreportdata");
-        $checks = $linuxCheckModel->getLinuxChecks();
-
         $linuxServerModel = new LinuxServerModel('nselogserverunix.unixserverinput');
         $servers = $linuxServerModel->pageRows(0, 10);
         $showServers = true;
@@ -184,5 +180,28 @@ class IndexController extends BaseController{
         echo array2csv($data);
         die();
     
+    }
+
+    public function getDataAction() {    
+        $linuxCheckModel = new NseLogMgmtReportDataModel("nselogmanagementdata.nselogmanagementreportdata");
+        $serverName = '';
+        if (isset($_POST['name']) && $_POST['name'] != '') {      
+            $serverName = urldecode($_POST['name']);
+        }
+       
+        $checks = $linuxCheckModel->getLinuxChecks($serverName);
+
+        $data = array();
+        $data[0]= array("Status", "Count");
+
+        foreach ($checks as $row) {  
+            $a = array();
+            array_push($a, trim($row["status"], " \r."));
+            array_push($a, intval($row["count"]));
+            array_push($data, $a);
+        };
+
+        echo json_encode($data);
+        exit;
     }
 }
