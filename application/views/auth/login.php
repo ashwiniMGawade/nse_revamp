@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>NSE automation Engine</title>
+		<title>Log Archival Engine</title>
 		<link rel="shortcut icon" href="public/images/favicon.ico" type="image/x-icon">
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +13,7 @@
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
-				<div class="d-flex justify-content-center">
+				<div class="d-flex justify-content-center" style="position:relative;">
 					<div class="brand_logo_container">
 						<!-- <img src="https://cdn.freebiesupply.com/logos/large/2x/pinterest-circle-logo-png-transparent.png" class="brand_logo" alt="Logo"> -->
 						<img src="public/images/NSE_Logo.svg" class="brand_logo" alt="Logo">

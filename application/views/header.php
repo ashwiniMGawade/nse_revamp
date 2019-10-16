@@ -18,13 +18,43 @@
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-th-list"></span> OnCommand Tools <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">OnCommand Workflow Automation</a></li>
-          <li><a href="#">OnCommand System Manager</a></li>
-          <li><a href="#">OnCommand Unified Manager</a></li>
+          <li class =" dropdown dropdown-submenu">
+            <a href="#" class="test" data-toggle="dropdown" class="droptown-toggle">OnCommand Workflow Automation<span class="caret"></span> </a>
+              <ul class="dropdown-menu">
+                <li>
+                    <a href="#">BKC</a>
+                </li>
+                <li>
+                    <a href="#">Other</a>
+                </li>              
+              </ul>
+          </li>
+          <li class ="dropdown dropdown-submenu">
+            <a href="#" class="test" data-toggle="dropdown" class="droptown-toggle">OnCommand System Manager<span class="caret"></span> </a>
+              <ul class="dropdown-menu">
+                <li>
+                    <a href="#">BKC</a>
+                </li>
+                <li>
+                    <a href="#">Other</a>
+                </li>              
+              </ul>
+          </li>
+          <li class ="dropdown dropdown-submenu">
+            <a href="#" class="test" data-toggle="dropdown" class="droptown-toggle">OnCommand Unified Manager<span class="caret"></span> </a>
+              <ul class="dropdown-menu">
+                <li>
+                    <a href="#">BKC</a>
+                </li>
+                <li>
+                    <a href="#">Other</a>
+                </li>              
+              </ul>
+          </li>          
         </ul>
       </li>
       <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Portal Link</a></li>
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> <?php echo $_SESSION['user'];?> <span class="caret"></span></a>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> <?php echo isset($_SESSION['user'])? $_SESSION['user']: '';?> <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="index.php?p=auth&a=signout">Sign Out</a></li>
         </ul>

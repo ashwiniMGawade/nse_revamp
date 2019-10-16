@@ -152,3 +152,17 @@ $('.datepicker.end-date').datepicker({
   todayHighlight: true,
   orientation:"bottom"
 });
+
+$(document).ready(function(){
+  $('.dropdown-submenu a.test').on("click", function(e){   
+    $('.dropdown-submenu ul').hide();
+    $(this).next('ul').show();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+
+  $(document).click(function(){
+    $(".dropdown-submenu ul").hide();
+  });
+ 
+});

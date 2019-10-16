@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?PHP
+
 if ( !isset( $_SESSION['user'] ) ) {
      // Redirect them to the login page
      header("Location:".$_SERVER['PHP_SELF']."?p=auth&a=login");
@@ -7,7 +8,7 @@ if ( !isset( $_SESSION['user'] ) ) {
 ?>
 <html>
 <head>
-  <title>NSE automation Engine</title>
+  <title>Log Archival Engine</title>
   <link rel="shortcut icon" href="public/images/favicon.ico" type="image/x-icon">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +17,7 @@ if ( !isset( $_SESSION['user'] ) ) {
   <link rel="stylesheet" media="screen" href="public/css/style.css">
   <link rel="stylesheet" href="public/css/w3.css">
   <link rel="stylesheet" href="public/css/font-awesome.min.css">
-  <base href="/nse_revamp/">
+  <base href="/">
   <style>
   /* Note: Try to remove the following lines to see the effect of CSS positioning */
   .affix {

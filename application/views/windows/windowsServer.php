@@ -28,9 +28,13 @@
 
             google.visualization.events.addListener(chart, 'select', function() {
                 var selection = chart.getSelection();
+                var value = data.getValue(selection[0].row, 0);
                 var urlParams = new URLSearchParams(location.search);
                 var name = urlParams.get('name');
                 var urlAppend = (name) ? "&name="+name : '';
+                value = value.toLowerCase();
+                value = (value == "failure"? "failed": value);
+                urlAppend += value !== ''? "&status="+value.toLowerCase() : "";
                 window.location.replace("index.php?p=windows&a=copies"+urlAppend); 
             });
         } 
@@ -59,7 +63,14 @@
 
             google.visualization.events.addListener(chart_check, 'select', function() {
                 var selection = chart_check.getSelection();
-                window.location.replace("index.php?p=windows&a=checks");  
+                var value = data_check.getValue(selection[0].row, 0);
+                var urlParams = new URLSearchParams(location.search);
+                var name = urlParams.get('name');
+                var urlAppend = (name) ? "&name="+name : '';
+                value = value.toLowerCase();
+                value = (value == "failure"? "failed": value);
+                urlAppend += value !== ''? "&status="+value.toLowerCase() : "";
+                window.location.replace("index.php?p=windows&a=checks"+urlAppend);  
             });  
         } 
     </script>  

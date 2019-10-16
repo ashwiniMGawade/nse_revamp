@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-6">
     
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>  
+    <script type="text/javascript" src="public/js/lib/loader.js"></script>  
     <script type="text/javascript">  
         google.charts.load('current', {'packages':['corechart']});  
         google.charts.setOnLoadCallback(drawChart_copy);  
@@ -27,9 +27,13 @@
 
             google.visualization.events.addListener(chart, 'select', function() {
                 var selection = chart.getSelection();
+                var value = data.getValue(selection[0].row, 0);
                 var urlParams = new URLSearchParams(location.search);
                 var name = urlParams.get('name');
                 var urlAppend = (name) ? "&name="+name : '';
+                value = value.toLowerCase();
+                value = (value == "failure"? "failed": value);
+                urlAppend += value !== ''? "&status="+value.toLowerCase() : "";
                 window.location.replace("index.php?p=linux&a=copyChecks"+urlAppend);  
             });
         } 
