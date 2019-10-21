@@ -188,6 +188,7 @@ class IndexController extends BaseController{
         if (isset($_POST['name']) && $_POST['name'] != '') {      
             $serverName = urldecode($_POST['name']);
         }
+        $day = '';
 
         if (isset($_POST['day']) && $_POST['day'] != '') {      
             $day = urldecode($_POST['day']);

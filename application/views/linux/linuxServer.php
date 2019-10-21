@@ -38,6 +38,11 @@
                 value = value.toLowerCase();
                 value = (value == "failure"? "failed": value);
                 urlAppend += value !== ''? "&status="+value.toLowerCase() : "";
+                if(urlParams.get('day') !='') {
+                    var m = moment();
+                    var s = m.subtract(urlParams.get('day'), 'days').startOf('day');
+                    urlAppend += "&startDate="+s.format("MM/DD/YYYY hh:mm A")+"&endDate"+moment().startOf('day').format("MM/DD/YYYY hh:mm A");
+                }
                 window.location.replace("index.php?p=linux&a=copyChecks"+urlAppend);  
             });
         } 
