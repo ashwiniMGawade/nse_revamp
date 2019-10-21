@@ -1,3 +1,4 @@
+<?php include VIEW_PATH."graphs-tab.php" ?>
 <div class="row">
   <div class="col-sm-6">
     
@@ -8,18 +9,22 @@
         google.charts.setOnLoadCallback(drawChart_check);  
         function drawChart_copy()  
         {  
-            var data = google.visualization.arrayToDataTable([  
-                ['Status', 'Count'],  
-                <?php  
-                foreach ($copies as $row) {  
-                    $trimmed = trim($row["status"], " \r.");
-                    echo "['".$trimmed."', ".$row["count"]."],"; 
-                }  
-                ?>  
-            ]);  
+            var urlParams = new URLSearchParams(location.search);
+            var name = urlParams.get('name');
+            $("#loader-copy").show();
+            var serverData = $.ajax({
+                url: "index.php?p=windows&a=getData",
+                type: "POST",
+                data: {"name": name, "type": "copy", "day": urlParams.get('day') },
+                dataType: "json",
+                async: false
+            }).responseText;
+            var array = JSON.parse(serverData);
+            var data = google.visualization.arrayToDataTable(array);  
+            $("#loader-copy").hide();
             var options = {  
                 title: 'Percentage of Windows LOG Copy Success and Failure',  
-                //is3D:true,  
+                is3D:true,  
                 pieHole: 0.4,  
                 colors: ['red', 'green']
             };  
@@ -28,9 +33,7 @@
 
             google.visualization.events.addListener(chart, 'select', function() {
                 var selection = chart.getSelection();
-                var value = data.getValue(selection[0].row, 0);
-                var urlParams = new URLSearchParams(location.search);
-                var name = urlParams.get('name');
+                var value = data.getValue(selection[0].row, 0);               
                 var urlAppend = (name) ? "&name="+name : '';
                 value = value.toLowerCase();
                 value = (value == "failure"? "failed": value);
@@ -40,18 +43,22 @@
         } 
         function drawChart_check()  
         {  
-            var data_check= google.visualization.arrayToDataTable([  
-                ['Status', 'Count'],  
-                <?php  
-                foreach ($checks as $row) {  
-                    $trimmed = trim($row["status"], " \r.");
-                    echo "['".$trimmed."', ".$row["count"]."],"; 
-                }  
-                ?> 
-            ]);  
+            var urlParams = new URLSearchParams(location.search);
+            var name = urlParams.get('name');
+            $("#loader-check").show();
+            var serverData = $.ajax({
+                url: "index.php?p=windows&a=getData",
+                type: "POST",
+                data: {"name": name, "type": "check", "day": urlParams.get('day')},
+                dataType: "json",
+                async: false
+            }).responseText;
+            var array_check = JSON.parse(serverData);
+            var data_check = google.visualization.arrayToDataTable(array_check);  
+            $("#loader-check").hide();
             var options_check = {  
                 title: 'Percentage of Windows LOG Check Success and Failure',  
-                //is3D:true,  
+                is3D:true,  
                 pieHole: 0.4,
                 colors: ['green'],
                 pieSliceTextStyle: {
@@ -64,8 +71,6 @@
             google.visualization.events.addListener(chart_check, 'select', function() {
                 var selection = chart_check.getSelection();
                 var value = data_check.getValue(selection[0].row, 0);
-                var urlParams = new URLSearchParams(location.search);
-                var name = urlParams.get('name');
                 var urlAppend = (name) ? "&name="+name : '';
                 value = value.toLowerCase();
                 value = (value == "failure"? "failed": value);
@@ -76,13 +81,15 @@
     </script>  
      
            
-    <div style="">    
+    <div style="">  
+        <div id="loader-copy" class="graph-loader row "></div>
         <div id="piechart_copy" style="width: 100%; height: 400px;"></div>   
     </div> 
            
   </div>
   <div class="col-sm-6">    
-    <div style="">   
+    <div style="">  
+        <div id="loader-check" class="graph-loader row "></div>
         <div id="piechart_check" style="width: 100%; height: 400px;"></div>   
     </div>  
   </div>

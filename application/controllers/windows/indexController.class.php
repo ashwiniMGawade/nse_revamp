@@ -8,13 +8,7 @@ require "framework/helpers/functions.php";
 
 class IndexController extends BaseController{
 
-    public function indexAction() {
-        $windowsCopyModel = new WindowsCopyModel("windowscopycheck.windows_copy");
-        $copies = $windowsCopyModel->getWindowsCopies();
-
-        $windowsCheckModel = new WindowsCheckModel("windowscopycheckone.windows_check");
-        $checks = $windowsCheckModel->getWindowsChecks();
-
+    public function indexAction() {       
         $windowsServerModel = new WindowsServerModel('nselogserverwindow.windowserverinput');
         $servers = $windowsServerModel->pageRows(0, 10);
         $showServers = true;
@@ -203,17 +197,22 @@ class IndexController extends BaseController{
         $fieldName = ($this->isChecks() ? 'dateandtime': 'startdate');
         if (isset($_GET['startDate']) && $_GET['startDate'] != '' && isset($_GET['endDate']) && $_GET['endDate'] != '') {
             $startdate = urldecode($_GET['startDate']);
-            $enddate = urldecode($_GET['endDate']);            
-            $where .= '(DATE('.$fieldName.') between "'.$startdate. '" and "'.$enddate.'") and ';
+            $enddate = urldecode($_GET['endDate']);  
+            $startdate = date('Y-m-d h:m:s', strtotime($startdate));
+            $enddate = date('Y-m-d h:m:s', strtotime($enddate));
+        
+            $where .= '('.$fieldName.' between "'.$startdate. '" and "'.$enddate.'") and ';
         } else {
             if (isset($_GET['startDate']) && $_GET['startDate'] != '') {
                 $startdate = urldecode($_GET['startDate']);
-                $where .= 'DATE('.$fieldName.') ="'.$startdate.'" and ';
+                $startdate = date('Y-m-d h:m:s', strtotime($startdate));
+                $where .= '('.$fieldName.') ="'.$startdate.'" and ';
             }
     
             if (isset($_GET['endDate']) && $_GET['endDate'] != '') {
                 $enddate = urldecode($_GET['endDate']);
-                $where .= 'DATE('.$fieldName.') ="'.$enddate.'" and ';
+                $enddate = date('Y-m-d h:m:s', strtotime($enddate));
+                $where .= '('.$fieldName.') ="'.$enddate.'" and ';
             }    
         } 
 
@@ -246,6 +245,42 @@ class IndexController extends BaseController{
             }
         }
         return false;
+    }
+
+    public function getDataAction() {     
+        $serverName = '';
+        if (isset($_POST['name']) && $_POST['name'] != '') {      
+            $serverName = urldecode($_POST['name']);
+        } 
+        $type = "copy"; 
+        if (isset($_POST['type']) && $_POST['type'] != '') {      
+            $serverName = urldecode($_POST['type']);
+        } 
+        $day = '';
+        if (isset($_POST['day']) && $_POST['day'] != '') {      
+            $day = urldecode($_POST['day']);
+        }
+        $results = '';    
+        if ($type == "copy") {
+            $model =  new WindowsCopyModel("windowscopycheck.windows_copy");
+            $results = $model->getWindowsCopies( $serverName, $day);
+        } else {
+            $model =  new WindowsCheckModel("windowscopycheckone.windows_check");
+            $results = $model->getWindowsChecks( $serverName, $day);          
+        }
+
+        $data = array();
+        $data[0]= array("Status", "Count");
+
+        foreach ($results as $row) {  
+            $a = array();
+            array_push($a, trim($row["status"], " \r."));
+            array_push($a, intval($row["count"]));
+            array_push($data, $a);
+        };
+
+        echo json_encode($data);
+        exit;
     }
 
 }

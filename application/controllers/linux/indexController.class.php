@@ -188,8 +188,12 @@ class IndexController extends BaseController{
         if (isset($_POST['name']) && $_POST['name'] != '') {      
             $serverName = urldecode($_POST['name']);
         }
+
+        if (isset($_POST['day']) && $_POST['day'] != '') {      
+            $day = urldecode($_POST['day']);
+        }
        
-        $checks = $linuxCheckModel->getLinuxChecks($serverName);
+        $checks = $linuxCheckModel->getLinuxChecks($serverName, $day);
 
         $data = array();
         $data[0]= array("Status", "Count");

@@ -4,12 +4,18 @@
 
 class WindowsCopyModel extends Model{
 
-    public function getWindowsCopies($serverName = '') {
+    public function getWindowsCopies($serverName = '', $day) {
+        $sql = "SELECT windowscopycheck.windows_copy.status as status, count(*) as count FROM windowscopycheck.windows_copy  where 1 ";
+
         if($serverName != '') {
-            $sql = "SELECT windowscopycheck.windows_copy.status as status, count(*) as count FROM windowscopycheck.windows_copy  where  LOWER(windowscopycheck.windows_copy.servername) = LOWER('".$serverName."') GROUP BY windowscopycheck.windows_copy.status";
-        } else {
-            $sql = "SELECT windowscopycheck.windows_copy.status as status, count(*) as count FROM windowscopycheck.windows_copy GROUP BY windowscopycheck.windows_copy.status";
+            $sql .= " and LOWER(windowscopycheck.windows_copy.servername) = LOWER('".$serverName."') ";
+        } 
+
+        if($day) {
+            $sql .= " and windowscopycheck.windows_copy.startdate >= ( CURDATE() - INTERVAL ".$day." DAY )";
         }
+
+        $sql .= " GROUP BY windowscopycheck.windows_copy.status";
         $wincopies = $this->db->getAll($sql);
 
         return $wincopies;

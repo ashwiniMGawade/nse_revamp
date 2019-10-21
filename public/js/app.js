@@ -132,25 +132,46 @@ particlesJS('particles-js',
 
 );
 
+var urlParams = new URLSearchParams(location.search); 
+var startDate = urlParams.get('startDate');
+if (startDate!= null) {  
+  startDate = moment(startDate);
+} else{
+  startDate = ''
+} 
 
-$('.datepicker.start-date').datepicker({
-  format: 'yyyy-mm-dd',
-  clearBtn:true,
-  endDate:"0d",
-  autoclose:true,
-  defaultViewDate: "today",
-  todayHighlight: true,
-  orientation:"bottom"
+var endDate = urlParams.get('endDate');
+if (endDate!= null) {  
+  endDate = moment(endDate);
+} else{
+  endDate = ''
+} 
+
+$('.datepicker.start-date').datetimepicker({
+  maxDate: moment(),
+  date:startDate,
+  useCurrent: false,
+  // format:"YYYY-MM-DDTHH:MM:SS.SSSZ"
+  // clearBtn:true,
+  // endDate:"0d",
+   //autoclose:true,
+  // defaultViewDate: "today",
+  // todayHighlight: true,
+  // orientation:"bottom"
 });
 
-$('.datepicker.end-date').datepicker({
-  format: 'yyyy-mm-dd',
-  clearBtn:true,
-  endDate:"0d",
-  autoclose:true,
-  defaultViewDate: "today",
-  todayHighlight: true,
-  orientation:"bottom"
+$('.datepicker.end-date').datetimepicker({
+  maxDate: moment(),
+  date:endDate,
+  useCurrent: false,
+  // format:"YYYY-MM-DDTHH:MM:SS.Z",
+  // format: 'yyyy-mm-dd',
+  // clearBtn:true,
+  // endDate:"0d",
+  //autoclose:true,
+  // defaultViewDate: "today",
+  // todayHighlight: true,
+  // orientation:"bottom"
 });
 
 $(document).ready(function(){
@@ -164,5 +185,7 @@ $(document).ready(function(){
   $(document).click(function(){
     $(".dropdown-submenu ul").hide();
   });
+
+  $('[data-toggle="tooltip"]').tooltip();
  
 });

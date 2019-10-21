@@ -1,6 +1,10 @@
 <div class="filters row">
-  <div class="col-md-2">
-    <button type="button" class="btn btn-warning" onclick="exportTableToExcel()" serverType="<?php echo PLATFORM; ?>" id="export" type="copies">Export to file</button>
+  <div class="col-md-1 form-group">
+  <span class="btn btn-warning" onclick="exportTableToExcel()" serverType="<?php echo PLATFORM; ?>" id="export"  data-toggle="tooltip"  title="Export to File">
+      <span class="glyphicon glyphicon-export" style="color:white;"></span>
+  </span>
+  
+    <!-- <button type="button" class="btn btn-warning font12" onclick="exportTableToExcel()" serverType="<?php //echo PLATFORM; ?>" id="export" type="copies">Export to file</button> -->
   </div>
  
   <?php include VIEW_PATH."filters.php" ?>

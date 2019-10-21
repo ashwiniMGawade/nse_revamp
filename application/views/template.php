@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <?PHP
 
-if ( !isset( $_SESSION['user'] ) ) {
+/*if ( !isset( $_SESSION['user'] ) ) {
      // Redirect them to the login page
      header("Location:".$_SERVER['PHP_SELF']."?p=auth&a=login");
-}
+}*/
 ?>
 <html>
 <head>
@@ -13,7 +13,7 @@ if ( !isset( $_SESSION['user'] ) ) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="public/css/bootstrap.min.css">  
-  <link rel="stylesheet" href="public/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="public/css/bootstrap-datetimepicker.min.css">
   <link rel="stylesheet" media="screen" href="public/css/style.css">
   <link rel="stylesheet" href="public/css/w3.css">
   <link rel="stylesheet" href="public/css/font-awesome.min.css">
