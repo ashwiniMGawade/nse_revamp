@@ -4,7 +4,7 @@
 
 class WindowsCopyModel extends Model{
 
-    public function getWindowsCopies($serverName = '', $day) {
+    public function getWindowsCopies($serverName = '', $day = '') {
         $sql = "SELECT windowscopycheck.windows_copy.status as status, count(*) as count FROM windowscopycheck.windows_copy  where 1 ";
 
         if($serverName != '') {

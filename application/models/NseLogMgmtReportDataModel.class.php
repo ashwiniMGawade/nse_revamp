@@ -2,7 +2,7 @@
 
 class NseLogMgmtReportDataModel extends Model{
   
-    public function getLinuxChecks($serverName = '',  $day) {
+    public function getLinuxChecks($serverName = '',  $day = '') {
         $sql = "SELECT if(nselogmanagementdata.nselogmanagementreportdata.status = 'started','Failure','Success') as status, count(*) as count FROM nselogmanagementdata.nselogmanagementreportdata where nselogmanagementdata.nselogmanagementreportdata.servertype = 'Unix' ";
 
         if($serverName != '') {

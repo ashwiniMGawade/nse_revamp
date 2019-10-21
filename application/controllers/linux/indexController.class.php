@@ -139,7 +139,7 @@ class IndexController extends BaseController{
            return $this->linuxAction();
         }
         $linuxCheckModel = new NseLogMgmtReportDataModel("nselogmanagementdata.nselogmanagementreportdata");
-        $checks = $linuxCheckModel->getLinuxChecks();
+        $checks = $linuxCheckModel->getLinuxChecks( $serverName);
 
         $showServers = true;
         $serverType = "linux";

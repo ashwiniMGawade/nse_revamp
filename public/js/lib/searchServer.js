@@ -17,7 +17,7 @@ function search (str) {
                     html ="<li class='list-group-item'>No Records found</li>";
                 } else {
                     result.forEach(row => {
-                        html += '<a  class="list-group-item list-group-item-action" href="index.php?a=server&p='+serverType+'&name='+row['servername']+'"><li >'+row['servername']+'</li></a>';
+                        html += '<a  class="list-group-item list-group-item-action" href="index.php?p='+serverType+'&a=server&name='+row['servername']+'"><li >'+row['servername']+'</li></a>';
                     });
                 }
                 document.getElementById("serverList").innerHTML = html;
