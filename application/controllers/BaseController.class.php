@@ -3,10 +3,11 @@ class BaseController{
     public function getUrl() {
         $url = $_SERVER['PHP_SELF'] . '?p='.PLATFORM.'&a='.ACTION;
 
-        if (isset($_GET['name']) && $_GET['name'] != '') {
-            $serverName = urldecode($_GET['name']);
-            $url .= "&name=". $serverName;
-        }
+        if(isset($_GET['name']) && !empty($_GET['name'])) { 
+            foreach($_GET['name'] as $namevar) {
+                $url .='&name='.$namevar;
+            }
+          }
 
         if (isset($_GET['status']) && $_GET['status'] != '') {
             $status = urldecode($_GET['status']);

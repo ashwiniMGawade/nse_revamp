@@ -18,7 +18,7 @@
         }
         foreach($servers as $row) {
             if(isset($row['servername']) && $row['servername'] != '')  {
-                echo '<a class="list-group-item list-group-item-action" href="index.php?p='.PLATFORM.'&a=server&name='.urlencode($row['servername']).'"><li>'. $row['servername'].'</li></a>';
+                echo '<a class="list-group-item list-group-item-action" href="index.php?p='.PLATFORM.'&a=server&name[]='.urlencode($row['servername']).'"><li>'. $row['servername'].'</li></a>';
             } 
         }
     }  

@@ -188,4 +188,25 @@ $(document).ready(function(){
 
   $('[data-toggle="tooltip"]').tooltip();
  
+  var urlParams = new URLSearchParams(location.search);
+  console.log(urlParams);
+  var name = urlParams.getAll('name[]');
+  console.log(name);
+
+
+  $('#multi-select-demo').multiselect({
+    buttonWidth: 200,
+    enableFiltering: true,
+    enableCaseInsensitiveFiltering:true
+  }); 
+
+  name.forEach(function(item) {
+    $('#multi-select-demo').multiselect('select', item);
+  });
+
+  $('.multiselect.dropdown-toggle').tooltip({
+    placement: 'top',
+    container: 'body'  
+  }).attr('data-original-title', name != '' ? name.join(',') : 'Please select server');
+ 
 });

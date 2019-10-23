@@ -2,10 +2,15 @@
 
 class WindowsCheckModel extends Model{
 
-    public function getWindowsChecks($serverName = '', $day = '') {
+    public function getWindowsChecks($serverName = array(), $day = '') {
         $sql = "SELECT windowscopycheckone.windows_check.status as status, count(*) as count FROM windowscopycheckone.windows_check WHERE 1";
-        if($serverName != '') {
-            $sql .= " and LOWER(windowscopycheckone.windows_check.servername)= LOWER('".$serverName."') ";
+
+        if(!empty($serverName)) {
+            $sql .= " and ( ";
+            foreach($serverName as $name) {
+                $sql .= " LOWER(windowscopycheckone.windows_check.servername)= LOWER('".$name."') or ";
+            }
+            $sql .= " 1 ) ";     
         }
         
         if($day) {

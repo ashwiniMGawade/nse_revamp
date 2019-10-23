@@ -14,6 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="public/css/bootstrap.min.css">  
   <link rel="stylesheet" href="public/css/bootstrap-datetimepicker.min.css">
+  <link rel="stylesheet" href="public/css/bootstrap-multiselect.css">
   <link rel="stylesheet" media="screen" href="public/css/style.css">
   <link rel="stylesheet" href="public/css/w3.css">
   <link rel="stylesheet" href="public/css/font-awesome.min.css">
@@ -39,7 +40,7 @@
 
 <?php include VIEW_PATH."header.php" ?>
 
-<div class="container-fluid" style="height:600px">
+<div class="container-fluid" style="height:auto">
   <div class="row">
         <div class="col-sm-2">
             <?php include VIEW_PATH."leftnav.php" ?>

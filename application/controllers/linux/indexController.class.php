@@ -47,9 +47,12 @@ class IndexController extends BaseController{
     
     private function getConditionsData() {
         $where = '';
-        if (isset($_GET['name']) && $_GET['name'] != '') {
-            $serverName = urldecode($_GET['name']);
-            $where = 'LOWER(server) =LOWER("'. $serverName.'") and ';
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            $where = '(';
+            foreach($_GET['name'] as $servername) {
+                $where .= 'LOWER(server) =LOWER("'. $servername.'") or ';
+            }
+            $where .= ' 0 ) and ';
         }
 
         if (isset($_GET['status']) && $_GET['status'] != '') {
@@ -91,6 +94,9 @@ class IndexController extends BaseController{
         $totalpages = $paginateOptions["totalpages"];
         $sortingInfo = $this->getSortinginfo();
 
+        $linuxServerModel = new LinuxServerModel('nselogserverunix.unixserverinput');
+        $servers = $linuxServerModel->pageRows(0, 2000);
+
         $checks = $linuxCheckModel->pageRows($offset, $rowsperpage, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
 
         $url = $this->getUrl();
@@ -110,12 +116,16 @@ class IndexController extends BaseController{
             "isActive" => false, 
             "link" => "index.php?p=linux"
         ];
-        if (isset($_GET['name']) && $_GET['name'] != '') {
-            $serverName = urldecode($_GET['name']);
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            $serverName = implode(',', $_GET['name']);
+            $link = "index.php?p=linux";
+            foreach($_GET['name'] as $server_name) {
+                $link .= "&name=".$server_name;
+            }
             $breadcrumbs[] =  (object) [
                 'title' => $serverName,
                 "isActive" => false,
-                "link" => "index.php?p=linux&name=".$serverName
+                "link" => $link
             ];
         }
         $breadcrumbs[] =  (object) [
@@ -132,14 +142,14 @@ class IndexController extends BaseController{
     }
 
     public function serverAction() {
-        if (isset($_GET['name']) && $_GET['name'] != '') {
-            $serverName = urldecode($_GET['name']);
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            $serverName = $_GET['name'];
          } else {
             // default page num
            return $this->linuxAction();
         }
         $linuxCheckModel = new NseLogMgmtReportDataModel("nselogmanagementdata.nselogmanagementreportdata");
-        $checks = $linuxCheckModel->getLinuxChecks( $serverName);
+        $checks = $linuxCheckModel->getLinuxChecks($serverName);
 
         $showServers = true;
         $serverType = "linux";
@@ -158,7 +168,7 @@ class IndexController extends BaseController{
         ];
 
         $breadcrumbs[] =  (object) [
-            'title' => $serverName,
+            'title' => implode(',', $serverName),
             "isActive" => true
         ];
         $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux");
@@ -184,9 +194,9 @@ class IndexController extends BaseController{
 
     public function getDataAction() {    
         $linuxCheckModel = new NseLogMgmtReportDataModel("nselogmanagementdata.nselogmanagementreportdata");
-        $serverName = '';
-        if (isset($_POST['name']) && $_POST['name'] != '') {      
-            $serverName = urldecode($_POST['name']);
+        $serverName = array();
+        if (isset($_POST['name']) && !empty($_POST['name'])) {      
+            $serverName = $_POST['name'];
         }
         $day = '';
 

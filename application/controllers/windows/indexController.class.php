@@ -45,12 +45,14 @@ class IndexController extends BaseController{
     }
 
     public function serverAction() {
-        if (isset($_GET['name']) && $_GET['name'] != '') {
-            $serverName = urldecode($_GET['name']);
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            $serverName = $_GET['name'];
          } else {
             // default page num
            return $this->windowsAction();
         }
+        $windowsServerModel = new WindowsServerModel('nselogserverwindow.windowserverinput');
+        $servers = $windowsServerModel->pageRows(0, 10);
         $windowsCopyModel = new WindowsCopyModel("windowscopycheck.windows_copy");
         $copies = $windowsCopyModel->getWindowsCopies($serverName);
 
@@ -74,7 +76,7 @@ class IndexController extends BaseController{
         ];
 
         $breadcrumbs[] =  (object) [
-            'title' => $serverName,
+            'title' => implode(',', $serverName),
             "isActive" => true
         ];
         $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows");
@@ -93,6 +95,9 @@ class IndexController extends BaseController{
         $currentpage = $paginateOptions["currentpage"];
         $totalpages = $paginateOptions["totalpages"];
         $sortingInfo = $this->getSortinginfo();
+
+        $windowsServerModel = new WindowsServerModel('nselogserverwindow.windowserverinput');
+        $servers = $windowsServerModel->pageRows(0, 2000);
 
         $copies = $windowsCopyModel->pageRows($offset, $rowsperpage, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
 
@@ -113,12 +118,18 @@ class IndexController extends BaseController{
             "isActive" => false, 
             "link" => "index.php?p=windows"
         ];
-        if (isset($_GET['name']) && $_GET['name'] != '') {
-            $serverName = urldecode($_GET['name']);
+
+        
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            $serverName = implode(',', $_GET['name']);
+            $link = "index.php?p=linux";
+            foreach($_GET['name'] as $server_name) {
+                $link .= "&name=".$server_name;
+            }
             $breadcrumbs[] =  (object) [
                 'title' => $serverName,
                 "isActive" => false,
-                "link" => "index.php?p=windows&name=".$serverName
+                "link" => $link
             ];
         }
         $breadcrumbs[] =  (object) [
@@ -144,6 +155,9 @@ class IndexController extends BaseController{
         $totalpages = $paginateOptions["totalpages"];
         $sortingInfo = $this->getSortinginfo();
 
+        $windowsServerModel = new WindowsServerModel('nselogserverwindow.windowserverinput');
+        $servers = $windowsServerModel->pageRows(0, 2000);
+
         $checks = $windowsCheckModel->pageRows($offset, $rowsperpage, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
 
         $url = $this->getUrl();
@@ -163,12 +177,16 @@ class IndexController extends BaseController{
             "isActive" => false, 
             "link" => "index.php?p=windows"
         ];
-        if (isset($_GET['name']) && $_GET['name'] != '') {
-            $serverName = urldecode($_GET['name']);
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            $serverName = implode(',', $_GET['name']);
+            $link = "index.php?p=linux";
+            foreach($_GET['name'] as $server_name) {
+                $link .= "&name=".$server_name;
+            }
             $breadcrumbs[] =  (object) [
                 'title' => $serverName,
                 "isActive" => false,
-                "link" => "index.php?p=windows&name=".$serverName
+                "link" => $link
             ];
         }
         $breadcrumbs[] =  (object) [
@@ -184,10 +202,14 @@ class IndexController extends BaseController{
 
     private function getConditionsData() {
         $where = '';
-        if (isset($_GET['name']) && $_GET['name'] != '') {
-            $serverName = urldecode($_GET['name']);
-            $where = 'LOWER(servername) =LOWER("'. $serverName.'") and ';
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            $where = '(';
+            foreach($_GET['name'] as $servername) {
+                $where .= 'LOWER(servername) =LOWER("'. $servername.'") or ';
+            }
+            $where .= ' 0 ) and ';
         }
+
 
         if (isset($_GET['status']) && $_GET['status'] != '') {
             $status = urldecode($_GET['status']);
@@ -248,13 +270,13 @@ class IndexController extends BaseController{
     }
 
     public function getDataAction() {     
-        $serverName = '';
-        if (isset($_POST['name']) && $_POST['name'] != '') {      
-            $serverName = urldecode($_POST['name']);
-        } 
+        $serverName = array();
+        if (isset($_POST['name']) && !empty($_POST['name'])) {      
+            $serverName = $_POST['name'];
+        }
         $type = "copy"; 
         if (isset($_POST['type']) && $_POST['type'] != '') {      
-            $serverName = urldecode($_POST['type']);
+            $type = urldecode($_POST['type']);
         } 
         $day = '';
         if (isset($_POST['day']) && $_POST['day'] != '') {      
