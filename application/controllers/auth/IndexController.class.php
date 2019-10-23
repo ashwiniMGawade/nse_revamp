@@ -14,21 +14,40 @@ class IndexController extends BaseController{
     public function authenticateAction() {
         if(isset($_POST['username']) && isset($_POST['password'])){
             $adServer = $GLOBALS['config']['ldap']['url'];
-        
+			ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
+			$ret = ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, 'c:/openldap/sysconf/webcert.pem');
+			$ret=ldap_set_option(null,LDAP_OPT_X_TLS_CACERTDIR,"c:/openldap/sysconf/");	
+			        
             $ldap = ldap_connect($adServer);
+				// Set the debug flag
+			$debug = true;
+			// Set debugging
+			if ($debug) {
+			  ldap_set_option($ldap, LDAP_OPT_DEBUG_LEVEL, 7);
+			}
+			
             $username = $_POST['username'];
             $password = $_POST['password'];
         
-            $ldaprdn = $_POST['username']; 
+            $ldaprdn = "nseroot\\" . $_POST['username'];
             ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
             ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-        
-            $bind = @ldap_bind($ldap, $ldaprdn, $password);   
+			$ret = ldap_set_option($ldap, LDAP_OPT_X_TLS_CACERTFILE, 'c:/openldap/sysconf/webcert.pem');
+			$ret=ldap_set_option($ldap,LDAP_OPT_X_TLS_CACERTDIR,"c:/openldap/sysconf/");
+			ldap_set_option($ldap, LDAP_OPT_X_TLS_REQUIRE_CERT, 1);
+			
+			$bind = @ldap_bind($ldap,   $ldaprdn, $password);
+			
+			/*if (!$bind) {
+				echo "Unable to bind to server $adServer\n";
+				echo "OpenLdap error message: " . ldap_error($ldap) . "\n";
+				exit;
+			}*/
+		
         
             if ($bind) {
-                $filter="(".$GLOBALS['config']['ldap']['searchFilterAttr']."=".$username.")";
+                $filter="(".$GLOBALS['config']['ldap']['searchFilterAttr']."=".$username.")";				
                 $result = ldap_search($ldap,$GLOBALS['config']['ldap']['searchBase'],$filter);
-
                 $info = ldap_get_entries($ldap, $result);
                 for ($i=0; $i<$info["count"]; $i++)
                 {
