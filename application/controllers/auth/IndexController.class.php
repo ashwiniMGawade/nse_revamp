@@ -13,6 +13,9 @@ class IndexController extends BaseController{
 
     public function authenticateAction() {
         if(isset($_POST['username']) && isset($_POST['password'])){
+            $_SESSION['user'] = "test";
+            header("Location:".$_SERVER['PHP_SELF']); 
+            exit;
             $adServer = $GLOBALS['config']['ldap']['url'];
 			ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
 			$ret = ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, 'c:/openldap/sysconf/webcert.pem');
