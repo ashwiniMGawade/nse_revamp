@@ -334,7 +334,7 @@ class Model{
 
             $sql = "select * from {$this->table}  where $where  order by $order_by $sort limit $offset, $limit";
 
-        }     
+        }   
         
         return $this->db->getAll($sql);
 

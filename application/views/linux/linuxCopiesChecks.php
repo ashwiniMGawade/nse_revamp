@@ -28,7 +28,8 @@
                 <td ><?php echo $row["enddate"]; ?></td>
                 <td class="input-cell"><div><?php echo $row["sourcepath"]; ?></div></td>
                 <td class="input-cell"><div><?php echo $row["destinationpath"]; ?></div></td>
-                <td ><?php echo $row["status"]; ?></td>
+                <td class="<?php echo ($row['status'] == "failed" ? "text-danger" : 'text-'.strtolower($row["status"])); ?>"
+                ><?php echo $row["status"]; ?></td>
                 <td style="width:5%" ><?php echo $row["batch"]; ?></td>
                 <td ><?php echo $row["mwfaid"]; ?></td>
                 <td class="input-cell"><?php echo $row["logdump"]; ?></td>

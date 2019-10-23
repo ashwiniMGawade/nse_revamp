@@ -5,7 +5,7 @@ class BaseController{
 
         if(isset($_GET['name']) && !empty($_GET['name'])) { 
             foreach($_GET['name'] as $namevar) {
-                $url .='&name='.$namevar;
+                $url .='&name[]='.$namevar;
             }
           }
 

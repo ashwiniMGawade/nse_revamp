@@ -72,6 +72,8 @@ class IndexController extends BaseController{
     public function signoutAction(){
 
         session_destroy();
+        unset($_SESSION['user']);
+        $_SESSION = [];
         header("Location:".$_SERVER['PHP_SELF']."?p=auth&a=login");
 
     }

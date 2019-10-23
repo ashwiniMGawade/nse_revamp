@@ -64,25 +64,14 @@
               <span class="glyphicon glyphicon-search" style="color:white;"></span>
           </span>
 
-            <span class="btn btn-danger" onclick="javascript:window.location='index.php?p=<?php echo PLATFORM; ?>&a=<?php echo ACTION; 
-            if(isset($_GET['name']) && !empty($_GET['name'])) { 
-              foreach($_GET['name'] as $namevar) {
-                echo '&name[]='.$namevar;
-              }
-            }?>';" data-toggle="tooltip" title="Clear Filter">
+            <span class="btn btn-danger" onclick="javascript:window.location='index.php?p=<?php echo PLATFORM; ?>&a=<?php echo ACTION;?>';" data-toggle="tooltip" title="Clear Filter">
               <span class="glyphicon glyphicon-erase" style="color:white;"></span>
           </span>
 
 
           
             <input name="p" type="hidden" value="<?php echo PLATFORM; ?>">
-            <input name="a" type="hidden" value="<?php echo ACTION; ?>">
-            <?php 
-             if(isset($_GET['name']) && $_GET['name'] != '') { 
-              foreach($_GET['name'] as $namevar) { ?>
-                 <input name="name" type="hidden" value="<?php echo $namevar; ?>">
-              <?php }
-            }?>
+            <input name="a" type="hidden" value="<?php echo ACTION; ?>">            
         </div>
     </form>
   </div>

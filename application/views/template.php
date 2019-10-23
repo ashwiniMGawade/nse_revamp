@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <?PHP
 
-/*if ( !isset( $_SESSION['user'] ) ) {
+if ( !isset( $_SESSION['user'] ) ) {
      // Redirect them to the login page
      header("Location:".$_SERVER['PHP_SELF']."?p=auth&a=login");
-}*/
+     exit;
+}
 ?>
 <html>
 <head>

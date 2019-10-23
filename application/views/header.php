@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#" style="padding: 5px;"><img src="public/images/netapp.png" style="height: 40px;"/></a>
-      <a class="navbar-brand" href="#" style="padding: 5px;"><img src="public/images/nse_logo.png" style="height: 40px;"/></a>
+      <a class="navbar-brand" href="#" style="padding: 5px;background-color:white;"><img src="public/images/nse_logo.png" style="height: 40px;"/></a>
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="#">Log Management Dashboard</a></li>
@@ -25,7 +25,7 @@
                     <a href="#">BKC</a>
                 </li>
                 <li>
-                    <a href="#">Other</a>
+                    <a href="#">BCP</a>
                 </li>              
               </ul>
           </li>
@@ -36,7 +36,7 @@
                     <a href="#">BKC</a>
                 </li>
                 <li>
-                    <a href="#">Other</a>
+                    <a href="#">BCP</a>
                 </li>              
               </ul>
           </li>
@@ -47,7 +47,7 @@
                     <a href="#">BKC</a>
                 </li>
                 <li>
-                    <a href="#">Other</a>
+                    <a href="#">BCP</a>
                 </li>              
               </ul>
           </li>          

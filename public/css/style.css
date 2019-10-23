@@ -106,6 +106,9 @@ ul#serverList {
 .filters {
   margin-bottom:30px;
 }
+.filters form {
+  margin-left:15px;
+}
 
 .graph-loader {
   border: 5px solid #f3f3f3; /* Light grey */

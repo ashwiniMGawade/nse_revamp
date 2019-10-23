@@ -10,8 +10,7 @@ function exportTableToExcel (str) {
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
 
-    today = yyyy + '-' + mm + '-' + dd;
-
+    today = new Date().toJSON().slice(0,10)
      // Create download link element
      downloadLink = document.createElement("a");
     
