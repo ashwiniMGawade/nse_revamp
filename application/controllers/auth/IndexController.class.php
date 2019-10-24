@@ -13,9 +13,6 @@ class IndexController extends BaseController{
 
     public function authenticateAction() {
         if(isset($_POST['username']) && isset($_POST['password'])){
-            $_SESSION['user'] = "test";
-            header("Location:".$_SERVER['PHP_SELF']); 
-            exit;
             $adServer = $GLOBALS['config']['ldap']['url'];
 			ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
 			$ret = ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, 'c:/openldap/sysconf/webcert.pem');
@@ -39,32 +36,40 @@ class IndexController extends BaseController{
 			$ret=ldap_set_option($ldap,LDAP_OPT_X_TLS_CACERTDIR,"c:/openldap/sysconf/");
 			ldap_set_option($ldap, LDAP_OPT_X_TLS_REQUIRE_CERT, 1);
 			
-			$bind = @ldap_bind($ldap,   $ldaprdn, $password);
-			
-			/*if (!$bind) {
-				echo "Unable to bind to server $adServer\n";
-				echo "OpenLdap error message: " . ldap_error($ldap) . "\n";
-				exit;
-			}*/
+             $bind = @ldap_bind($ldap,   $ldaprdn, $password);
+
+			// if (!$bind) {
+			// 	echo "Unable to bind to server $adServer\n";
+			// 	echo "OpenLdap error message: " . ldap_error($ldap) . "\n";
+			// 	exit;
+			// }
 		
         
             if ($bind) {
                 $filter="(".$GLOBALS['config']['ldap']['searchFilterAttr']."=".$username.")";				
-                $result = ldap_search($ldap,$GLOBALS['config']['ldap']['searchBase'],$filter);
-                $info = ldap_get_entries($ldap, $result);
-                for ($i=0; $i<$info["count"]; $i++)
-                {
-                    if($info['count'] > 1)
-                        break;
-                  
-                    $userDn = $info[$i]["cn"][0]; 
-                    $_SESSION['user'] = $userDn;
-                    @ldap_close($ldap);
-                    header("Location:".$_SERVER['PHP_SELF']);                   
-                }
+                $result_grp = ldap_search($ldap,$GLOBALS['config']['ldap']['searchBase'],$filter, array("memberof",$GLOBALS['config']['ldap']['securityGroup']));
+                $info_grp = ldap_get_entries($ldap, $result_grp);
+
+                if ($info_grp['count']> 0) {
+                    $result = ldap_search($ldap,$GLOBALS['config']['ldap']['searchBase'],$filter);
+                    $info = ldap_get_entries($ldap, $result);
+                    for ($i=0; $i<$info["count"]; $i++)
+                    {
+                        if($info['count'] > 1)
+                            break;
+                    
+                        $userDn = $info[$i]["cn"][0]; 
+                        $_SESSION['user'] = $userDn;
+                        @ldap_close($ldap);
+                        header("Location:".$_SERVER['PHP_SELF']);                   
+                    }
+                } else {
+                    $msg = "Unauthorized user!";
+                    header("Location:".$_SERVER['PHP_SELF']."?p=auth&a=login&msg=".urlencode($msg));
+                }               
                
             } else {
-                $msg = "Invalid email address / password";
+                $msg = "Invalid email address / password!";
                 header("Location:".$_SERVER['PHP_SELF']."?p=auth&a=login&msg=".urlencode($msg));
             }
         

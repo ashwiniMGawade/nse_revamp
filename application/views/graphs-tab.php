@@ -1,4 +1,4 @@
-<div class="panel with-nav-tabs panel-primary">
+<div class="panel with-nav-tabs panel-primary nav-fill">
   <div class="panel-heading">
     <ul class="nav nav-tabs">
         <?php 

@@ -1,6 +1,7 @@
 /* ---- stats.js ---- */
 html, body {
   font-family: 'Gotham Narrow SSm A','Gotham Narrow SSm B',Helvetica,Arial,sans-serif;
+  font-size:14px;
 }
 .count-particles{
   background: #000022;
@@ -120,7 +121,10 @@ td.text-success,td.text-danger{
 }
 
 table thead {
-  color:#337ab7
+  color:#337ab7;
+  border-width: 0px 1px 5px 1px;
+  border-style: solid;
+  border-color: #337ab7;
 }
 
 .graph-loader {
@@ -152,10 +156,28 @@ table thead {
 }
 
 .panel.with-nav-tabs .panel-heading{
-  padding: 5px 5px 0 5px;
+  padding:0px;
+}
+
+.panel-primary>.panel-heading {
+  color: #337ab7;
+  background-color: #fff;
+  border-color: transparent;
 }
 .panel.with-nav-tabs .nav-tabs{
-border-bottom: none;
+  border-bottom: none;
+  border: none;
+  color: #fff;
+  border-radius: 0;
+  display: flex;
+  margin-bottom:0px;
+}
+
+.panel.with-nav-tabs{
+  background: #fdfdfd;
+  line-height: 1px;
+  border: 1px solid #ddd;
+  border-bottom: 5px solid #337ab7;
 }
 .panel.with-nav-tabs .nav-justified{
 margin-bottom: -1px;
@@ -163,11 +185,13 @@ margin-bottom: -1px;
 
 .nav-tabs>li{
   margin-bottom: -2px;
+  flex: 1 1 auto;
+  text-align: center;
 }
 .with-nav-tabs.panel-primary .nav-tabs > li > a,
 .with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
 .with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
-    color: #fff;
+    color: #337ab7;
 }
 .with-nav-tabs.panel-primary .nav-tabs > .open > a,
 .with-nav-tabs.panel-primary .nav-tabs > .open > a:hover,
@@ -181,10 +205,19 @@ margin-bottom: -1px;
 .with-nav-tabs.panel-primary .nav-tabs > li.active > a,
 .with-nav-tabs.panel-primary .nav-tabs > li.active > a:hover,
 .with-nav-tabs.panel-primary .nav-tabs > li.active > a:focus {
-	color: #428bca;
-	background-color: #fff;
+	color: #fff;
+	background-color: #3071a9;
 	border-color: #428bca;
 	border-bottom-color: transparent;
+}
+
+.with-nav-tabs.panel-primary .nav-tabs > li.active::after {
+  content: "";
+  position: relative;
+  bottom: -24px;
+  left: 0%;
+  border: 15px solid transparent;
+  border-top-color: #3071a9;
 }
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu {
     background-color: #428bca;
