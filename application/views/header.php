@@ -33,10 +33,10 @@
             <a href="#" class="test" data-toggle="dropdown" class="droptown-toggle">OnCommand System Manager<span class="caret"></span> </a>
               <ul class="dropdown-menu">
                 <li>
-                    <a href="#">BKC</a>
+                    <a href="https://172.20.228.57/sysmgr/">BKC</a>
                 </li>
                 <li>
-                    <a href="#">BCP</a>
+                    <a href="https://172.24.228.75/sysmgr/">BCP</a>
                 </li>              
               </ul>
           </li>

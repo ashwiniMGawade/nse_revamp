@@ -46,11 +46,21 @@ class IndexController extends BaseController{
 		
         
             if ($bind) {
-                $filter="(".$GLOBALS['config']['ldap']['searchFilterAttr']."=".$username.")";				
-                $result_grp = ldap_search($ldap,$GLOBALS['config']['ldap']['searchBase'],$filter, array("memberof",$GLOBALS['config']['ldap']['securityGroup']));
+                $filter="(".$GLOBALS['config']['ldap']['searchFilterAttr']."=".$username.")";	
+                $result_grp = ldap_search($ldap,$GLOBALS['config']['ldap']['searchBase'],$filter, array("memberof",'primarygroupid'));
                 $info_grp = ldap_get_entries($ldap, $result_grp);
+				$uesrIsMember = false;
+				
+				for ($i=0; $i<$info_grp[0]['memberof']['count']; $i++)
+				{
+					if($info_grp[0]['memberof'][$i] ==  $GLOBALS['config']['ldap']['securityGroup']) {
+						$uesrIsMember = true;;
+						break;
+					}
+				}
+                    
 
-                if ($info_grp['count']> 0) {
+                if ($uesrIsMember) {
                     $result = ldap_search($ldap,$GLOBALS['config']['ldap']['searchBase'],$filter);
                     $info = ldap_get_entries($ldap, $result);
                     for ($i=0; $i<$info["count"]; $i++)
