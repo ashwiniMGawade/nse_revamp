@@ -220,21 +220,29 @@ class IndexController extends BaseController{
         if (isset($_GET['startDate']) && $_GET['startDate'] != '' && isset($_GET['endDate']) && $_GET['endDate'] != '') {
             $startdate = urldecode($_GET['startDate']);
             $enddate = urldecode($_GET['endDate']);  
-            $startdate = date('Y-m-d h:m:s', strtotime($startdate));
-            $enddate = date('Y-m-d h:m:s', strtotime($enddate));
+            $date = new DateTime($startdate);
+            $startdate = $date->format("Y-m-d H:i:s");
+            $date1 = new DateTime($enddate);
+            $enddate = $date1->format("Y-m-d H:i:s");
+            // $startdate = date('Y-m-d h:m:s', strtotime($startdate));
+            // $enddate = date('Y-m-d h:m:s', strtotime($enddate));
         
             $where .= '('.$fieldName.' between "'.$startdate. '" and "'.$enddate.'") and ';
         } else {
             if (isset($_GET['startDate']) && $_GET['startDate'] != '') {
                 $startdate = urldecode($_GET['startDate']);
-                $startdate = date('Y-m-d h:m:s', strtotime($startdate));
-                $where .= '('.$fieldName.') ="'.$startdate.'" and ';
+                $date = new DateTime($startdate);
+                $startdate = $date->format("Y-m-d H:i:s");
+                // $startdate = date('Y-m-d h:m:s', strtotime($startdate));
+                $where .= '('.$fieldName.') >="'.$startdate.'" and ';
             }
     
             if (isset($_GET['endDate']) && $_GET['endDate'] != '') {
                 $enddate = urldecode($_GET['endDate']);
-                $enddate = date('Y-m-d h:m:s', strtotime($enddate));
-                $where .= '('.$fieldName.') ="'.$enddate.'" and ';
+                $date1 = new DateTime($enddate);
+                $enddate = $date1->format("Y-m-d H:i:s");
+                // $enddate = date('Y-m-d h:m:s', strtotime($enddate));
+                $where .= '('.$fieldName.') <="'.$enddate.'" and ';
             }    
         } 
 

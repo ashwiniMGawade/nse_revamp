@@ -12,7 +12,7 @@
                 <th>End DateTime<a href="<?php echo sortorder($url, 'enddate'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('enddate');?>"></i></a></th>
                 <th>Source Path</th>
                 <th>Destination Path</th>
-                <th>Status<a href="<?php echo sortorder($url, 'status'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('status');?>"></i></a></th>
+                <th>Status&nbsp;&nbsp;<a href="<?php echo sortorder($url, 'status'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('status');?>"></i></a></th>
                 <th style="width:5%" >Batch</th>
                 <th>JOB ID</th>
                 <th>Log Dump</th>

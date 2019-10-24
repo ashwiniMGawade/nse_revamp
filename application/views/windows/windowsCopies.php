@@ -12,7 +12,7 @@
         <th>Destination Mount Point</th>
         <th>Start DateTime <a href="<?php echo sortorder($url, 'startdate'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('startdate');?>"></i></a></th>
         <th>End DateTime <a href="<?php echo sortorder($url, 'enddate'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('enddate');?>"></i></a></th>
-        <th>Status <a href="<?php echo sortorder($url, 'status'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('status');?>"></i></a></th>
+        <th>Status&nbsp;&nbsp;&nbsp;<a href="<?php echo sortorder($url, 'status'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('status');?>"></i></a></th>
         <th>Log Dump</th>
       </tr>
     </thead>
@@ -21,7 +21,7 @@
       foreach($copies as $row) { 
             if($row["status"] == "Failed"){
         ?>
-      <tr class="danger">
+      <tr >
        <td><?php echo $row["servername"]; ?></td>
         <td><?php echo $row["localdrive"]; ?></td>
         <td><?php echo $row["networkpath"]; ?></td>
@@ -30,7 +30,7 @@
         <td><?php echo $row["destinaitonpathformounting"]; ?></td>
         <td><?php echo $row["startdate"]; ?></td>
         <td><?php echo $row["enddate"]; ?></td>
-        <td><?php echo $row["status"]; ?></td>
+        <td class="text-danger"><?php echo $row["status"]; ?></td>
         <td><?php echo $row["logdump"]; ?></td>
             </tr>
             <?php 
@@ -44,7 +44,7 @@
         <td><?php echo $row["destinaitonpathformounting"]; ?></td>
         <td><?php echo $row["startdate"]; ?></td>
         <td><?php echo $row["enddate"]; ?></td>
-        <td><?php echo $row["status"]; ?></td>
+        <td class="text-success"><?php echo $row["status"]; ?></td>
         <td><?php echo $row["logdump"]; ?></td>
       </tr>
             <?php 

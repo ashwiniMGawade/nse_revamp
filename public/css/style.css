@@ -1,5 +1,7 @@
 /* ---- stats.js ---- */
-
+html, body {
+  font-family: 'Gotham Narrow SSm A','Gotham Narrow SSm B',Helvetica,Arial,sans-serif;
+}
 .count-particles{
   background: #000022;
   position: absolute;
@@ -81,6 +83,9 @@ ul#serverList {
   margin-bottom: 0;
   border-bottom: 0;
 }
+td.text-success,td.text-danger{
+  font-weight:700;
+}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -108,6 +113,14 @@ ul#serverList {
 }
 .filters form {
   margin-left:15px;
+}
+
+.filters .multiselect-selected-text {
+  font-size:12px;
+}
+
+table thead {
+  color:#337ab7
 }
 
 .graph-loader {

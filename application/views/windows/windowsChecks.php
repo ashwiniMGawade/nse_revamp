@@ -13,7 +13,7 @@
                 <th>Copy Permission</th>
                 <th>Mounting Status</th>
                 <th>Date and Time<a href="<?php echo sortorder($url, 'dateandtime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('dateandtime');?>"></i></a></th>
-                <th>Status<a href="<?php echo sortorder($url, 'status'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('status');?>"></i></a></th>
+                <th>Status &nbsp;&nbsp;&nbsp;<a href="<?php echo sortorder($url, 'status'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('status');?>"></i></a></th>
             </tr>
         </thead>
         <tbody>
@@ -28,7 +28,7 @@
                 <td><?php echo $row["copypermission"]; ?></td>
                 <td><?php echo $row["mountingstatus"]; ?></td>
                 <td><?php echo $row["dateandtime"]; ?></td>
-                <td><?php echo $row["status"]; ?></td>
+                <td class="<?php echo ($row['status'] == "failed" ? "text-danger" : 'text-'.strtolower($row["status"])); ?>"><?php echo $row["status"]; ?></td>
             </tr>
             <?php } ?>
         </tbody>

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-static-top" data-spy="affix" data-offset-top="197">
+<nav class="navbar navbar-inverse navbar-static-top" data-spy="affix" data-offset-top="197" style="border:none;">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#" style="padding: 5px;"><img src="public/images/netapp.png" style="height: 40px;"/></a>

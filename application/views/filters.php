@@ -8,7 +8,7 @@
       </div>
       <!-- <div class="col-md-2"> -->
         <div class="form-group font12">
-          <select id="multi-select-demo" multiple="multiple" name="name[]" title="text">
+          <select id="multi-select-demo" multiple="multiple" name="name[]" title="text" class="font12">
             <?php 
              foreach($servers as $row) { 
                if ($row['servername'] != '') {
@@ -37,7 +37,7 @@
         <!-- col-md-3 -->
         <div class="form-group ">
             <div class='input-group date datepicker start-date' data-toggle="tooltip" title="From Date">
-                <input type='text' class="form-control font12" name="startDate" autocomplete="off" id="startDate" placeholder="From Date" style="width:160px;"/>
+                <input type='text' class="form-control font12" name="startDate" autocomplete="off" id="startDate" placeholder="From Date" style="width:165px;"/>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -50,7 +50,7 @@
         <!-- ol-md-3 -->
         <div class="form-group ">
             <div class='input-group date datepicker end-date' data-toggle="tooltip" title="To Date">
-                <input type='text' class="form-control font12" name="endDate" id="endDate" autocomplete="off" placeholder="To Date" style="width:160px;"/>
+                <input type='text' class="form-control font12" name="endDate" id="endDate" autocomplete="off" placeholder="To Date" style="width:165px;"/>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
