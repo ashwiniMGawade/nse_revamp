@@ -235,3 +235,9 @@ margin-bottom: -1px;
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
     background-color: #4a9fe9;
 }
+
+.navbar-right .dropdown-menu>li>a:focus,.navbar-right .dropdown-menu>li>a:hover{
+  color: #fff;
+  background-color: #080808;
+} 
+  
