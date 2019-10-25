@@ -9,8 +9,9 @@ require "framework/helpers/functions.php";
 class IndexController extends BaseController{
 
     public function indexAction() {       
-        $windowsServerModel = new WindowsServerModel('nselogserverwindow.windowserverinput');
-        $servers = $windowsServerModel->pageRows(0, 10);
+        $serverModel = new ServerModel('nselogmanagement.serverList');
+        $where = 'nselogmanagement.serverlist.flag = "Windows"';
+        $servers = $serverModel->pageRows(0, 10, $where);
         $showServers = true;
         $serverType = "windows";
 
@@ -33,12 +34,12 @@ class IndexController extends BaseController{
 
     
     public function searchAction(){
-        $where = '';
+        $where = 'nselogmanagement.serverlist.flag = "Windows"';
         if (isset($_GET['search']) && $_GET['search'] != '') {
             $search = urldecode($_GET['search']);
-            $where = 'nselogserverwindow.windowserverinput.servername like "%'.$search.'%"';
+            $where = 'and nselogmanagement.serverlist.servername like "%'.$search.'%"';
          }
-        $windowsServerModel = new WindowsServerModel('nselogserverwindow.windowserverinput');
+        $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
         $servers = $windowsServerModel->pageRows(0, 1000, $where);
         echo json_encode($servers);
 
@@ -51,12 +52,14 @@ class IndexController extends BaseController{
             // default page num
            return $this->windowsAction();
         }
-        $windowsServerModel = new WindowsServerModel('nselogserverwindow.windowserverinput');
-        $servers = $windowsServerModel->pageRows(0, 10);
-        $windowsCopyModel = new WindowsCopyModel("windowscopycheck.windows_copy");
+        $where = 'nselogmanagement.serverlist.flag = "Windows"';
+        $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
+        $servers = $windowsServerModel->pageRows(0, 10, $where);
+
+        $windowsCopyModel = new WindowsCopyModel("nselogmanagement.windowslog");
         $copies = $windowsCopyModel->getWindowsCopies($serverName);
 
-        $windowsCheckModel = new WindowsCheckModel("windowscopycheckone.windows_check");
+        $windowsCheckModel = new WindowsCheckModel("nselogmanagement.windowscheck");
         $checks = $windowsCheckModel->getWindowsChecks($serverName);
 
         $showServers = true;
@@ -88,7 +91,7 @@ class IndexController extends BaseController{
     public function copiesAction() {       
         $where = $this->getConditionsData();
         $validStatusToAssign = ["successful", "failed"];
-        $windowsCopyModel = new WindowsCopyModel("windowscopycheck.windows_copy");
+        $windowsCopyModel = new WindowsCopyModel("nselogmanagement.windowslog");
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];
         $paginateOptions = paginate( $windowsCopyModel, $rowsperpage, $where);
         $offset = $paginateOptions["offset"];
@@ -96,8 +99,9 @@ class IndexController extends BaseController{
         $totalpages = $paginateOptions["totalpages"];
         $sortingInfo = $this->getSortinginfo();
 
-        $windowsServerModel = new WindowsServerModel('nselogserverwindow.windowserverinput');
-        $servers = $windowsServerModel->pageRows(0, 2000);
+        $where1 = 'nselogmanagement.serverlist.flag = "Windows"';
+        $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
+        $servers = $windowsServerModel->pageRows(0, 2000, $where1);
 
         $copies = $windowsCopyModel->pageRows($offset, $rowsperpage, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
 
@@ -147,7 +151,7 @@ class IndexController extends BaseController{
     public function checksAction() {
         $where = $this->getConditionsData();
         $validStatusToAssign = ["success", "failed"];
-        $windowsCheckModel = new WindowsCheckModel("windowscopycheckone.windows_check");
+        $windowsCheckModel = new WindowsCheckModel("nselogmanagement.windowscheck");
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];
         $paginateOptions = paginate( $windowsCheckModel, $rowsperpage, $where);
         $offset = $paginateOptions["offset"];
@@ -155,8 +159,10 @@ class IndexController extends BaseController{
         $totalpages = $paginateOptions["totalpages"];
         $sortingInfo = $this->getSortinginfo();
 
-        $windowsServerModel = new WindowsServerModel('nselogserverwindow.windowserverinput');
-        $servers = $windowsServerModel->pageRows(0, 2000);
+        $where1 = 'nselogmanagement.serverlist.flag = "Windows"';
+        $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
+        $servers = $windowsServerModel->pageRows(0, 2000, $where1);
+
 
         $checks = $windowsCheckModel->pageRows($offset, $rowsperpage, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
 
@@ -202,7 +208,7 @@ class IndexController extends BaseController{
 
     private function getConditionsData() {
         $where = '';
-        if (isset($_GET['name']) && !empty($_GET['name'])) {
+        if (isset($_GET['name']) && !empty($_GET['name'])) {            
             $where = '(';
             foreach($_GET['name'] as $servername) {
                 $where .= 'LOWER(servername) =LOWER("'. $servername.'") or ';
@@ -252,11 +258,11 @@ class IndexController extends BaseController{
 
     public function downloadAction(){
         $where = $this->getConditionsData();
-        $model =  new WindowsCopyModel("windowscopycheck.windows_copy");
+        $model =  new WindowsCopyModel("nselogmanagement.windowslog");
         $sortingInfo = $this->getSortinginfo(); 
       
         if ($this->isChecks()) {
-            $model =  new WindowsCheckModel("windowscopycheckone.windows_check");
+            $model =  new WindowsCheckModel("nselogmanagement.windowscheck");
         }
         $data = $model->pageRows(0, 1000, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
 
@@ -292,10 +298,10 @@ class IndexController extends BaseController{
         }
         $results = '';    
         if ($type == "copy") {
-            $model =  new WindowsCopyModel("windowscopycheck.windows_copy");
+            $model =  new WindowsCopyModel("nselogmanagement.windowslog");
             $results = $model->getWindowsCopies( $serverName, $day);
         } else {
-            $model =  new WindowsCheckModel("windowscopycheckone.windows_check");
+            $model =  new WindowsCheckModel("nselogmanagement.windowscheck");
             $results = $model->getWindowsChecks( $serverName, $day);          
         }
 
