@@ -37,7 +37,7 @@ class IndexController extends BaseController{
         $where = 'nselogmanagement.serverlist.flag = "Windows"';
         if (isset($_GET['search']) && $_GET['search'] != '') {
             $search = urldecode($_GET['search']);
-            $where = 'and nselogmanagement.serverlist.servername like "%'.$search.'%"';
+            $where .= 'and nselogmanagement.serverlist.servername like "%'.$search.'%"';
          }
         $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
         $servers = $windowsServerModel->pageRows(0, 1000, $where);

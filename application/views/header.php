@@ -22,10 +22,10 @@
             <a href="#" class="test" data-toggle="dropdown" class="droptown-toggle">OnCommand Workflow Automation<span class="caret"></span> </a>
               <ul class="dropdown-menu">
                 <li>
-                    <a href="#">BKC</a>
+                    <a href="#" target="_blank">BKC</a>
                 </li>
                 <li>
-                    <a href="#">BCP</a>
+                    <a href="#" target="_blank">BCP</a>
                 </li>              
               </ul>
           </li>
@@ -33,10 +33,10 @@
             <a href="#" class="test" data-toggle="dropdown" class="droptown-toggle">OnCommand System Manager<span class="caret"></span> </a>
               <ul class="dropdown-menu">
                 <li>
-                    <a href="https://172.20.228.57/sysmgr/">BKC</a>
+                    <a href="https://172.20.228.57/sysmgr/" target="_blank">BKC</a>
                 </li>
                 <li>
-                    <a href="https://172.24.228.75/sysmgr/">BCP</a>
+                    <a href="https://172.24.228.75/sysmgr/" target="_blank">BCP</a>
                 </li>              
               </ul>
           </li>
@@ -44,10 +44,10 @@
             <a href="#" class="test" data-toggle="dropdown" class="droptown-toggle">OnCommand Unified Manager<span class="caret"></span> </a>
               <ul class="dropdown-menu">
                 <li>
-                    <a href="#">BKC</a>
+                    <a href="#" target="_blank">BKC</a>
                 </li>
                 <li>
-                    <a href="#">BCP</a>
+                    <a href="#" target="_blank">BCP</a>
                 </li>              
               </ul>
           </li>          
