@@ -96,7 +96,7 @@ class IndexController extends BaseController{
 
     public function copiesAction() {
         $where = $this->getConditionsData();       
-        $validStatusToAssign = ["success", "completed", "started", "in-progress", "failed"];
+        $validStatusToAssign = ["success", "warning", "started", "in-progress", "failed"];
         $linuxCopyModel = new LinuxCopyModel("nselogmanagement.unixlog");
 
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];
@@ -157,7 +157,7 @@ class IndexController extends BaseController{
 
     public function checksAction() {
         $where = $this->getConditionsData();       
-        $validStatusToAssign = ["success", "completed", "started", "in-progress", "failed"];
+        $validStatusToAssign = ["success", "failed"];
         $linuxCheckModel = new LinuxCheckModel("nselogmanagement.unixcheck");
 
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];
