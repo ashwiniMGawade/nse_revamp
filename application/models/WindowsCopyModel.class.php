@@ -16,7 +16,7 @@ class WindowsCopyModel extends Model{
         }
 
         if($day) {
-            $sql .= " and nselogmanagement.windowslog.startdate >= ( CURDATE() - INTERVAL ".$day." DAY )";
+            $sql .= " and nselogmanagement.windowslog.starttime >= ( CURDATE() - INTERVAL ".$day." DAY )";
         }
 
         $sql .= " GROUP BY nselogmanagement.windowslog.status";

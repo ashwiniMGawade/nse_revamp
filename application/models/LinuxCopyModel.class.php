@@ -14,7 +14,7 @@ class LinuxCopyModel extends Model{
         }
 
         if($day) {
-            $sql .= " and nselogmanagement.unixlog.startdate >= ( CURDATE() - INTERVAL ".$day." DAY )";
+            $sql .= " and nselogmanagement.unixlog.starttime >= ( CURDATE() - INTERVAL ".$day." DAY )";
         }
 
         $sql .= " GROUP BY nselogmanagement.unixlog.status";

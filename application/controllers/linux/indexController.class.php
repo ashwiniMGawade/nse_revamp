@@ -65,7 +65,7 @@ class IndexController extends BaseController{
             $where .= 'LOWER(status) =LOWER("'.$status.'") and ';
         }
 
-       $datefieldName = ($this->isChecks() ? 'dateandtime': 'startdate');
+       $datefieldName = ($this->isChecks() ? 'time': 'starttime');
         if (isset($_GET['startDate']) && $_GET['startDate'] != '' && isset($_GET['endDate']) && $_GET['endDate'] != '') {
             $startdate = urldecode($_GET['startDate']);
             $enddate = urldecode($_GET['endDate']);  

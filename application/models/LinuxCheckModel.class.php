@@ -14,7 +14,7 @@ class LinuxCheckModel extends Model{
         }
         
         if($day) {
-            $sql .= " and nselogmanagement.unixcheck.dateandtime >= ( CURDATE() - INTERVAL ".$day." DAY )";
+            $sql .= " and nselogmanagement.unixcheck.time >= ( CURDATE() - INTERVAL ".$day." DAY )";
         }
 
         $sql .= " group by nselogmanagement.unixcheck.status";

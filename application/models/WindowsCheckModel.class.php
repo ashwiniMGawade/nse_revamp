@@ -14,7 +14,7 @@ class WindowsCheckModel extends Model{
         }
         
         if($day) {
-            $sql .= " and nselogmanagement.windowscheck.dateandtime >= ( CURDATE() - INTERVAL ".$day." DAY )";
+            $sql .= " and nselogmanagement.windowscheck.time >= ( CURDATE() - INTERVAL ".$day." DAY )";
         }
 
         $sql .= " group by nselogmanagement.windowscheck.status";
