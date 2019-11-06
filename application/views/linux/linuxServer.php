@@ -27,7 +27,7 @@
                             title: 'Percentage of Linux LOG Copy Success and Failure',  
                             is3D:true,  
                             pieHole: 0.4,  
-                            colors: ['red',  'green']
+                            colors: ['red', '#428bca', '#43459d', 'green', 'orange']
                         };  
                         $("#loader-copy").hide();
                         var chart = new google.visualization.PieChart(document.getElementById('piechart_copy'));  
@@ -72,7 +72,7 @@
                             title: 'Percentage of Linux LOG Check Success and Failure',  
                             is3D:true,  
                             pieHole: 0.4,
-                            colors: ['green', 'red'],
+                            colors: ['red', 'green'],
                             pieSliceTextStyle: {
                                 color: 'black'
                             }  
