@@ -49,10 +49,7 @@ class IndexController extends BaseController{
     private function getConditionsData() {
         $where = '';
         if (isset($_GET['name']) && !empty($_GET['name'])) {
-            $fieldname = "server";
-            if ($this->isChecks()) {
-                $fieldname = "servername";
-            }
+            $fieldname = "servername";          
             $where = '(';
             foreach($_GET['name'] as $servername) {
                 $where .= 'LOWER('.$fieldname.') =LOWER("'. $servername.'") or ';
@@ -302,9 +299,11 @@ class IndexController extends BaseController{
         }
 
         if ($type == "copy") {
+            $validStatusToAssign = ["Success",  "Warning", "Started", "In-Progress", "Failed"]; 
             $model =  new LinuxCopyModel("nselogmanagement.unixlog");
             $results = $model->getLinuxCopies( $serverName, $day);
         } else {
+            $validStatusToAssign = ["Success", "Failed"];
             $model =  new LinuxCheckModel("nselogmanagement.unixcheck");
             $results = $model->getLinuxChecks( $serverName, $day);          
         }
@@ -313,6 +312,17 @@ class IndexController extends BaseController{
         $data = array();
         $data[0]= array("Status", "Count");
 
+       
+        $result_statuses = array_column($results, "status");
+        $remainingStatuses = array_diff($validStatusToAssign, $result_statuses);
+
+        if (count($remainingStatuses) > 0) {
+            foreach ($remainingStatuses as $status) {  
+                array_push($results, array("status"=> $status, "count" => 0));
+            }
+        }
+        $statuses_values = array_column($results, "status");
+        array_multisort($statuses_values, SORT_ASC ,$results);
         foreach ($results as $row) {  
             $a = array();
             array_push($a, trim($row["status"], " \r."));
@@ -320,7 +330,7 @@ class IndexController extends BaseController{
             array_push($data, $a);
         };
 
-        echo json_encode($data);
+        echo json_encode(array_merge($data, $defaulArray));
         exit;
     }
 }

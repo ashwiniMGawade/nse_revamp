@@ -10,7 +10,7 @@ class WindowsCheckModel extends Model{
             foreach($serverName as $name) {
                 $sql .= " LOWER(nselogmanagement.windowscheck.servername)= LOWER('".$name."') or ";
             }
-            $sql .= " 1 ) ";     
+            $sql .= " 0 ) ";     
         }
         
         if($day) {

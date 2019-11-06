@@ -307,13 +307,26 @@ class IndexController extends BaseController{
         $data = array();
         $data[0]= array("Status", "Count");
 
+       
+        $validStatusToAssign = ["Success", "Failed"];
+        $result_statuses = array_column($results, "status");
+        $remainingStatuses = array_diff($validStatusToAssign, $result_statuses);
+
+        if (count($remainingStatuses) > 0) {
+            foreach ($remainingStatuses as $status) {  
+                array_push($results, array("status"=> $status, "count" => 0));
+            }
+        }
+        $statuses_values = array_column($results, "status");
+        array_multisort($statuses_values, SORT_ASC ,$results);
+       
         foreach ($results as $row) {  
             $a = array();
             array_push($a, trim($row["status"], " \r."));
             array_push($a, intval($row["count"]));
             array_push($data, $a);
         };
-
+        
         echo json_encode($data);
         exit;
     }

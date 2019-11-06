@@ -8,9 +8,9 @@ class LinuxCopyModel extends Model{
         if(!empty($serverName)) {
             $sql .= " and ( ";
             foreach($serverName as $name) {
-                $sql .= " LOWER(nselogmanagement.unixlog.server) = LOWER('".$name."') or ";
+                $sql .= " LOWER(nselogmanagement.unixlog.servername) = LOWER('".$name."') or ";
             }
-            $sql .= " 1 ) ";     
+            $sql .= " 0 ) ";     
         }
 
         if($day) {

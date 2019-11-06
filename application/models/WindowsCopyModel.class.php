@@ -12,7 +12,7 @@ class WindowsCopyModel extends Model{
             foreach($serverName as $name) {
                 $sql .= " LOWER(nselogmanagement.windowslog.servername) = LOWER('".$name."') or ";
             }
-            $sql .= " 1 ) ";     
+            $sql .= " 0 ) ";     
         }
 
         if($day) {
@@ -20,6 +20,7 @@ class WindowsCopyModel extends Model{
         }
 
         $sql .= " GROUP BY nselogmanagement.windowslog.status";
+
         $wincopies = $this->db->getAll($sql);
 
         return $wincopies;

@@ -10,7 +10,7 @@ class LinuxCheckModel extends Model{
             foreach($serverName as $name) {
                 $sql .= " LOWER(nselogmanagement.unixcheck.servername)= LOWER('".$name."') or ";
             }
-            $sql .= " 1 ) ";     
+            $sql .= " 0 ) ";     
         }
         
         if($day) {
