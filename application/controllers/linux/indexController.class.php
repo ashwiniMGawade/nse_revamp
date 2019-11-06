@@ -330,7 +330,7 @@ class IndexController extends BaseController{
             array_push($data, $a);
         };
 
-        echo json_encode(array_merge($data, $defaulArray));
+        echo json_encode($data);
         exit;
     }
 }
