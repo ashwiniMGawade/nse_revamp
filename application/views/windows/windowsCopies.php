@@ -5,11 +5,10 @@
     <thead>
       <tr>
         <th>Server Name<a href="<?php echo sortorder($url, 'servername'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('servername');?>"></i></a></th>
+        <th>Server IP</th>
         <th>Local Drive</th>
         <th>Network Path</th>
-        <th>Source Path</th>
         <th>Destination Path</th>
-        <th>Destination Mount Point</th>
         <th>Start DateTime <a href="<?php echo sortorder($url, 'startdate'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('startdate');?>"></i></a></th>
         <th>End DateTime <a href="<?php echo sortorder($url, 'enddate'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('enddate');?>"></i></a></th>
         <th>Status&nbsp;&nbsp;&nbsp;<a href="<?php echo sortorder($url, 'status'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('status');?>"></i></a></th>
@@ -22,28 +21,26 @@
             if($row["status"] == "Failed"){
         ?>
       <tr >
-       <td><?php echo $row["servername"]; ?></td>
+        <td><?php echo $row["servername"]; ?></td>
+        <td><?php echo $row["serverip"]; ?></td>
         <td><?php echo $row["localdrive"]; ?></td>
         <td><?php echo $row["networkpath"]; ?></td>
-        <td><?php echo $row["sourcepath"]; ?></td>
         <td><?php echo $row["destinationpath"]; ?></td>
-        <td><?php echo $row["destinaitonpathformounting"]; ?></td>
-        <td><?php echo $row["startdate"]; ?></td>
-        <td><?php echo $row["enddate"]; ?></td>
+        <td><?php echo $row["starttime"]; ?></td>
+        <td><?php echo $row["endtime"]; ?></td>
         <td class="text-danger"><?php echo $row["status"]; ?></td>
         <td><?php echo $row["logdump"]; ?></td>
             </tr>
             <?php 
-        } if($row["status"] == "Successful"){ ?>
+        } if($row["status"] == "Success"){ ?>
             <tr class="Success">
-            <td><?php echo $row["servername"]; ?></td>
+        <td><?php echo $row["servername"]; ?></td>
+        <td><?php echo $row["serverip"]; ?></td>
         <td><?php echo $row["localdrive"]; ?></td>
         <td><?php echo $row["networkpath"]; ?></td>
-        <td><?php echo $row["sourcepath"]; ?></td>
         <td><?php echo $row["destinationpath"]; ?></td>
-        <td><?php echo $row["destinaitonpathformounting"]; ?></td>
-        <td><?php echo $row["startdate"]; ?></td>
-        <td><?php echo $row["enddate"]; ?></td>
+        <td><?php echo $row["starttime"]; ?></td>
+        <td><?php echo $row["endtime"]; ?></td>
         <td class="text-success"><?php echo $row["status"]; ?></td>
         <td><?php echo $row["logdump"]; ?></td>
       </tr>

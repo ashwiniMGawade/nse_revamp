@@ -90,7 +90,7 @@ class IndexController extends BaseController{
 
     public function copiesAction() {       
         $where = $this->getConditionsData();
-        $validStatusToAssign = ["successful", "failed"];
+        $validStatusToAssign = ["success", "failed"];
         $windowsCopyModel = new WindowsCopyModel("nselogmanagement.windowslog");
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];
         $paginateOptions = paginate( $windowsCopyModel, $rowsperpage, $where);
@@ -104,7 +104,6 @@ class IndexController extends BaseController{
         $servers = $windowsServerModel->pageRows(0, 2000, $where1);
 
         $copies = $windowsCopyModel->pageRows($offset, $rowsperpage, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
-
         $url = $this->getUrl();
 
         $showServers = true;

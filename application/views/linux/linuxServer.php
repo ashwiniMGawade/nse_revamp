@@ -24,10 +24,10 @@
                         var array = JSON.parse(serverData);
                         var data = google.visualization.arrayToDataTable(array);  
                         var options = {  
-                            title: 'Percentage of Linux LOG Copy/Check Success and Failure',  
+                            title: 'Percentage of Linux LOG Copy Success and Failure',  
                             is3D:true,  
                             pieHole: 0.4,  
-                            colors: ['red', 'green']
+                            colors: ['red',  'green']
                         };  
                         $("#loader-copy").hide();
                         var chart = new google.visualization.PieChart(document.getElementById('piechart_copy'));  
@@ -69,10 +69,10 @@
                         var data_check = google.visualization.arrayToDataTable(array_check);  
                         $("#loader-check").hide();
                         var options_check = {  
-                            title: 'Percentage of Windows LOG Check Success and Failure',  
+                            title: 'Percentage of Linux LOG Check Success and Failure',  
                             is3D:true,  
                             pieHole: 0.4,
-                            colors: ['green'],
+                            colors: ['green', 'red'],
                             pieSliceTextStyle: {
                                 color: 'black'
                             }  

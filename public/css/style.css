@@ -236,8 +236,12 @@ margin-bottom: -1px;
     background-color: #4a9fe9;
 }
 
-.navbar-right .dropdown-menu>li>a:focus,.navbar-right .dropdown-menu>li>a:hover{
+.navbar-right .dropdown-menu>li>a:focus,.navbar-right   .dropdown-menu>li>a:hover{
   color: #fff;
   background-color: #080808;
 } 
+
+.multiselect-container.dropdown-menu input {
+  vertical-align:middle;
+}
   

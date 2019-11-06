@@ -6,12 +6,14 @@
         <thead>
             <tr>
                 <th>Server Name<a href="<?php echo sortorder($url, 'servername'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('servername');?>"></i></a></th>
+                <th>Server IP</th>
                 <th>Mount Path</th>
                 <th>Network Path</th>
                 <th>Mount Exist</th>
-                <th>NFS Mount</th>
-                <th>Date and Time<a href="<?php echo sortorder($url, 'dateandtime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('dateandtime');?>"></i></a></th>
+                <th>Mount Type</th>
+                <th>Date and Time<a href="<?php echo sortorder($url, 'time'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('time');?>"></i></a></th>
                 <th>Status &nbsp;&nbsp;&nbsp;<a href="<?php echo sortorder($url, 'status'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('status');?>"></i></a></th>
+                <th>Log Dump</th>
             </tr>
         </thead>
         <tbody>
@@ -19,12 +21,14 @@
             foreach($checks as $row) { ?>
             <tr>
                 <td><?php echo $row["servername"]; ?></td>
+                <td><?php echo $row["serverip"]; ?></td>
                 <td><?php echo $row["mountpath"]; ?></td>
                 <td><?php echo $row["networkpath"]; ?></td>
                 <td><?php echo $row["mountexist"]; ?></td>
-                <td><?php echo $row["nfsmount"]; ?></td>
-                <td><?php echo $row["dateandtime"]; ?></td>
-                <td class="<?php echo ($row['status'] == "failed" ? "text-danger" : 'text-'.strtolower($row["status"])); ?>"><?php echo $row["status"]; ?></td>
+                <td><?php echo $row["mounttype"]; ?></td>
+                <td><?php echo $row["time"]; ?></td>
+                <td class="<?php echo ($row['status'] == "Failed" ? "text-danger" : 'text-'.strtolower($row["status"])); ?>"><?php echo $row["status"]; ?></td>
+                <td><?php echo $row["logdump"]; ?></td>
             </tr>
             <?php } ?>
         </tbody>

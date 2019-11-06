@@ -29,7 +29,7 @@
                         title: 'Percentage of Windows LOG Copy Success and Failure',  
                         is3D:true,  
                         pieHole: 0.4,  
-                        colors: ['red', 'green']
+                        colors: [ 'green', 'red']
                     };  
                     var chart = new google.visualization.PieChart(document.getElementById('piechart_copy'));  
                     chart.draw(data, options);  
@@ -71,7 +71,7 @@
                         title: 'Percentage of Windows LOG Check Success and Failure',  
                         is3D:true,  
                         pieHole: 0.4,
-                        colors: ['green'],
+                        colors:  [ 'green', 'red'],
                         pieSliceTextStyle: {
                             color: 'black'
                         }  

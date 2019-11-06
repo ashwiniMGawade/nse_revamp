@@ -6,14 +6,14 @@
         <thead>
             <tr>
                 <th>Server Name<a href="<?php echo sortorder($url, 'servername'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('servername');?>"></i></a></th>
+                <th>Server IP</th>
                 <th>Local Drive</th>
                 <th>Network Path</th>
                 <th>Drive Exist</th>
-                <th>Write Permission</th>
-                <th>Copy Permission</th>
-                <th>Mounting Status</th>
-                <th>Date and Time<a href="<?php echo sortorder($url, 'dateandtime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('dateandtime');?>"></i></a></th>
+                <th>Map Status</th>
+                <th>Date and Time<a href="<?php echo sortorder($url, 'time'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('time');?>"></i></a></th>
                 <th>Status &nbsp;&nbsp;&nbsp;<a href="<?php echo sortorder($url, 'status'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('status');?>"></i></a></th>
+                <th>Log Dump</th>
             </tr>
         </thead>
         <tbody>
@@ -21,14 +21,14 @@
             foreach($checks as $row) { ?>
             <tr>
                 <td><?php echo $row["servername"]; ?></td>
+                <td><?php echo $row["serverip"]; ?></td>
                 <td><?php echo $row["localdrive"]; ?></td>
                 <td><?php echo $row["networkpath"]; ?></td>
                 <td><?php echo $row["driveexist"]; ?></td>
-                <td><?php echo $row["filewritepermission"]; ?></td>
-                <td><?php echo $row["copypermission"]; ?></td>
-                <td><?php echo $row["mountingstatus"]; ?></td>
-                <td><?php echo $row["dateandtime"]; ?></td>
-                <td class="<?php echo ($row['status'] == "failed" ? "text-danger" : 'text-'.strtolower($row["status"])); ?>"><?php echo $row["status"]; ?></td>
+                <td><?php echo $row["mapstatus"]; ?></td>
+                <td><?php echo $row["time"]; ?></td>
+                <td class="<?php echo ($row['status'] == "Failed" ? "text-danger" : 'text-'.strtolower($row["status"])); ?>"><?php echo $row["status"]; ?></td>
+                <td><?php echo $row["logdump"]; ?></td>
             </tr>
             <?php } ?>
         </tbody>
