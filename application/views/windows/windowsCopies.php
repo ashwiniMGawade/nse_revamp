@@ -9,8 +9,8 @@
         <th>Local Drive</th>
         <th>Network Path</th>
         <th>Destination Path</th>
-        <th>Start DateTime <a href="<?php echo sortorder($url, 'starttime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('startdate');?>"></i></a></th>
-        <th>End DateTime <a href="<?php echo sortorder($url, 'endtime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('enddate');?>"></i></a></th>
+        <th>Start DateTime <a href="<?php echo sortorder($url, 'starttime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('starttime');?>"></i></a></th>
+        <th>End DateTime <a href="<?php echo sortorder($url, 'endtime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('endtime');?>"></i></a></th>
         <th>Status&nbsp;&nbsp;&nbsp;<a href="<?php echo sortorder($url, 'status'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('status');?>"></i></a></th>
         <th>Log Dump</th>
       </tr>

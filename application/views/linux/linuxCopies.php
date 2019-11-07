@@ -8,8 +8,8 @@
             <tr>
                 <th>Server Name<a href="<?php echo sortorder($url, 'servername'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('server');?>"></i></a></th>
                 <th>Server IP</th>
-                <th>Start DateTime<a href="<?php echo sortorder($url, 'starttime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('startdate');?>"></i></a></th>
-                <th>End DateTime<a href="<?php echo sortorder($url, 'endtime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('enddate');?>"></i></a></th>
+                <th>Start DateTime<a href="<?php echo sortorder($url, 'starttime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('starttime');?>"></i></a></th>
+                <th>End DateTime<a href="<?php echo sortorder($url, 'endtime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('endtime');?>"></i></a></th>
                 <th>Source Path</th>
                 <th>Mount Path</th>
                 <th>Destination Path</th>

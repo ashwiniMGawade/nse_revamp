@@ -56,12 +56,6 @@ class IndexController extends BaseController{
         $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
         $servers = $windowsServerModel->pageRows(0, 10, $where);
 
-        $windowsCopyModel = new WindowsCopyModel("nselogmanagement.windowslog");
-        $copies = $windowsCopyModel->getWindowsCopies($serverName);
-
-        $windowsCheckModel = new WindowsCheckModel("nselogmanagement.windowscheck");
-        $checks = $windowsCheckModel->getWindowsChecks($serverName);
-
         $showServers = true;
         $serverType = "windows";
 

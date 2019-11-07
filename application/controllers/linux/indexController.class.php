@@ -220,12 +220,7 @@ class IndexController extends BaseController{
             // default page num
            return $this->linuxAction();
         }
-        $linuxCheckModel = new LinuxCheckModel("nselogmanagement.unixcheck");
-        $checks = $linuxCheckModel->getLinuxChecks($serverName);
-
-        $linuxCopyModel = new LinuxCopyModel("nselogmanagement.unixlog");
-        $copies = $linuxCopyModel->getLinuxCopies($serverName);
-
+        
         $showServers = true;
         $serverType = "linux";
 
