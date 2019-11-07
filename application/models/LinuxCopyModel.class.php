@@ -22,5 +22,4 @@ class LinuxCopyModel extends Model{
 
         return $wincopies;
     }
-
 }
