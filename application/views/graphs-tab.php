@@ -12,11 +12,18 @@
           }
         };
         $server = isset($_GET['a']) && $_GET["a"] != '' ? "&a=". $_GET["a"] : '';
+        
         ?>
-      <li class="<?php echo ($url=="index.php?p=".PLATFORM.$server.$name) ? "active" : "";?>"><a href="index.php?p=<?php echo PLATFORM.$server.$name; ?>">All</a></li>
+      <?php if($server == '' &&  $name == '') { 
+         $serverStatus = isset($_GET['serverStatus']) && $_GET["serverStatus"] != '' ? "&serverStatus=". $_GET["serverStatus"] : '&serverStatus=today';
+         ?>
+          <li class="<?php echo ($url=="index.php?p=".PLATFORM.$serverStatus) ? "active" : "";?>"><a href="index.php?p=<?php echo PLATFORM.$serverStatus; ?>">Server Status</a></li>
+      <?php } ?>   
+      <li class="<?php echo ($url=="index.php?p=".PLATFORM.$server.$name)  ? "active" : "";?>"><a href="index.php?p=<?php echo PLATFORM.$server.$name; ?>">All</a></li>  
       <li class="<?php echo ($url=="index.php?p=".PLATFORM.$server.$name."&day=1") ? "active" : "";?>"><a href="index.php?p=<?php echo PLATFORM.$server.$name; ?>&day=1">Last 2 days</a></li>
       <li class="<?php echo ($url=="index.php?p=".PLATFORM.$server.$name."&day=7") ? "active" : "";?>"><a href="index.php?p=<?php echo PLATFORM.$server.$name; ?>&day=7">Last 7 days</a></li>
       <li class="<?php echo ($url=="index.php?p=".PLATFORM.$server.$name."&day=30") ? "active" : "";?>"><a href="index.php?p=<?php echo PLATFORM.$server.$name; ?>&day=30">Last 30 days</a></li>
+    
     </ul>
   </div>
 </div>

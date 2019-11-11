@@ -133,6 +133,31 @@ particlesJS('particles-js',
 );
 
 var urlParams = new URLSearchParams(location.search); 
+
+$('.datepicker.statusdate').datetimepicker({
+  maxDate: moment(),
+  date:startDate,
+  useCurrent: false,
+  format: 'YYYY-MM-DD',
+  // format:"YYYY-MM-DDTHH:MM:SS.SSSZ"
+  // clearBtn:true,
+  // endDate:"0d",
+  //autoclose:true,
+  // defaultViewDate: "today",
+  // todayHighlight: true,
+  // orientation:"bottom"
+});
+
+$('.datepicker.statusdate').on('dp.change', function(e) {
+  urlParams.set("serverStatus",e.date.format('YYYY-MM-DD'))
+  var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + urlParams.toString();
+  // window.location.search = newUrl;
+  window.history.pushState({path:newUrl},'',newUrl);
+});
+
+
+
+
 var startDate = urlParams.get('startDate');
 if (startDate!= null) {  
   startDate = moment(startDate);
@@ -189,9 +214,7 @@ $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
  
   var urlParams = new URLSearchParams(location.search);
-  console.log(urlParams);
   var name = urlParams.getAll('name[]');
-  console.log(name);
 
 
   $('#multi-select-demo').multiselect({

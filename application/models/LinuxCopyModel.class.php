@@ -22,4 +22,27 @@ class LinuxCopyModel extends Model{
 
         return $wincopies;
     }
+
+    public function getLinuxServerStatus($date = '') {
+        $sql = "SELECT serverlist.servername, date(unixlog.starttime), count(*) FROM nselogmanagement.unixlog right join nselogmanagement.serverlist
+        on nselogmanagement.serverlist.servername = nselogmanagement.unixlog.servername
+        where nselogmanagement.serverlist.flag = 'Unix' ";
+
+     
+        if($date) {
+            $sqlDate = "date('$date')";
+            if( $date == "today") {
+                $sqlDate = "date(CURDATE())";
+            }
+            $sql .= " and date(nselogmanagement.unixlog.starttime) = $sqlDate";
+        }
+
+        $sql .= "  group by serverlist.servername;";
+
+        // print_R($sql);
+       
+        $wincopies = $this->db->getAll($sql);
+
+        return $wincopies;
+    }
 }

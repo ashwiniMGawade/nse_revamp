@@ -26,7 +26,7 @@ class IndexController extends BaseController{
             'title' => 'Linux',
             "isActive" => true
         ];
-        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux");
+        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux&serverStatus=today");
 
         $pageContent = CURR_VIEW_PATH . "linuxServer.php";
 
@@ -125,7 +125,7 @@ class IndexController extends BaseController{
         $breadcrumbs[] =  (object) [
             'title' => 'Linux',
             "isActive" => false, 
-            "link" => "index.php?p=linux"
+            "link" => "index.php?p=linux&serverStatus=today"
         ];
         if (isset($_GET['name']) && !empty($_GET['name'])) {
             $serverName = implode(',', $_GET['name']);
@@ -145,7 +145,7 @@ class IndexController extends BaseController{
         ];
 
        
-        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux");
+        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux&serverStatus=today");
 
         $pageContent = CURR_VIEW_PATH . "linuxCopies.php";
 
@@ -186,7 +186,7 @@ class IndexController extends BaseController{
         $breadcrumbs[] =  (object) [
             'title' => 'Linux',
             "isActive" => false, 
-            "link" => "index.php?p=linux"
+            "link" => "index.php?p=linux&serverStatus=today"
         ];
         if (isset($_GET['name']) && !empty($_GET['name'])) {
             $serverName = implode(',', $_GET['name']);
@@ -206,7 +206,7 @@ class IndexController extends BaseController{
         ];
 
        
-        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux");
+        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux&serverStatus=today");
 
         $pageContent = CURR_VIEW_PATH . "linuxChecks.php";
 
@@ -234,14 +234,14 @@ class IndexController extends BaseController{
         $breadcrumbs[] =  (object) [
             'title' => 'Linux',
             "isActive" => false,
-            'link' => "index.php?p=linux"
+            'link' => "index.php?p=linux&serverStatus=today"
         ];
 
         $breadcrumbs[] =  (object) [
             'title' => implode(',', $serverName),
             "isActive" => true
         ];
-        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux");
+        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux&serverStatus=today");
         $pageContent = CURR_VIEW_PATH . "linuxServer.php";
 
         include VIEW_PATH."template.php";
@@ -325,6 +325,36 @@ class IndexController extends BaseController{
             array_push($data, $a);
         };
 
+        echo json_encode($data);
+        exit;
+    }
+
+    public function getServerDataAction() {    
+        $serverStatus = 'today';
+        if (isset($_POST['serverStatus']) && !empty($_POST['serverStatus'])) {      
+            $serverStatus = urldecode($_POST['serverStatus']);
+        }
+
+        $validStatusToAssign = ["Run", "Not Run"]; 
+              
+        $model =  new LinuxCopyModel("nselogmanagement.unixlog");
+        $results = $model->getLinuxServerStatus($serverStatus);
+     
+        $where = 'nselogmanagement.serverlist.flag = "Unix"';
+        $serverModel = new ServerModel('nselogmanagement.serverList');
+        $total = $serverModel->total($where);
+        $data = array();
+        $data[0]= array("Status", "Count");
+        $data[1] = array("Run",  count( $results));
+        $data[2] = array("Not Run",  $total - count( $results));
+
+
+        // if (count($remainingStatuses) > 0) {
+        //     foreach ($remainingStatuses as $status) {  
+        //         array_push($results, array("status"=> $status, "count" => 0));
+        //     }
+        // }
+      
         echo json_encode($data);
         exit;
     }
