@@ -42,21 +42,27 @@
                              var value = data.getValue(selection[0].row, 0);  
                              urlAppend = ''; 
                              value = value.toLowerCase();
-                             value = (value == "failure"? "failed": value);
-                             urlAppend += value !== ''? "&status="+value.toLowerCase() : "";
-                             if(urlParams.get('serverStatus') != null) {
-                                 var m = moment();
-                                 var s = m.subtract(urlParams.get('day'), 'days').startOf('day');
-                                 urlAppend += "&startDate="+s.format("MM/DD/YYYY hh:mm A")+"&endDate"+moment().startOf('day').format("MM/DD/YYYY hh:mm A");
+                            //  value = (value == "failure"? "failed": value);
+                            //  urlAppend += value !== ''? "&status="+value.toLowerCase() : "";
+                             if(urlParams.get('serverStatus') != null && value == "run") {
+                                 var s = moment();
+                                 if (urlParams.get('serverStatus') != 'today') {
+                                    var s =  moment(urlParams.get('serverStatus'));
+                                 }
+                                 
+                                 urlAppend += "&startDate="+s.format("MM/DD/YYYY hh:mm A")+"&endDate="+s.add(1, 'days').format("MM/DD/YYYY hh:mm A");
+                                 window.location.replace("index.php?p=linux&a=copies"+urlAppend);
+                             } else {
+                                window.location.replace("index.php?p=linux&a=serverStatus&serverStatus="+(urlParams.get('serverStatus')));
                              }
-                             window.location.replace("index.php?p=linux&a=copies"+urlAppend);  
+                              
                          });
                      } 
 
                  </script>  
                  <div class="row">
                     <div class="col-sm-4">
-                        <input class="datepicker form-control statusdate"  placeholder="From Date" name="statusdate"  autocomplete="off" value="<?php //echo isset($_GET['startDate']) ? $_GET['startDate']: '';?>">
+                        <input class="datepicker form-control statusdate"  placeholder="Date" name="statusdate"  autocomplete="off" value="<?php echo isset($_GET['serverStatus']) ? $_GET['serverStatus']: '';?>">
                     </div>
                 </div>                    
                  <div style="">    

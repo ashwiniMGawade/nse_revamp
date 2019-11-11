@@ -347,15 +347,69 @@ class IndexController extends BaseController{
         $data[0]= array("Status", "Count");
         $data[1] = array("Run",  count( $results));
         $data[2] = array("Not Run",  $total - count( $results));
-
-
-        // if (count($remainingStatuses) > 0) {
-        //     foreach ($remainingStatuses as $status) {  
-        //         array_push($results, array("status"=> $status, "count" => 0));
-        //     }
-        // }
       
         echo json_encode($data);
         exit;
+    }
+
+    public function serverStatusAction() {  
+        $serverStatus = 'today';
+        if (isset($_GET['serverStatus']) && !empty($_GET['serverStatus'])) {      
+            $serverStatus = urldecode($_GET['serverStatus']);
+        }
+        $linuxCopyModel = new LinuxCopyModel("nselogmanagement.unixlog");
+        $copies = $linuxCopyModel->getLinuxServerStatus($serverStatus);
+
+        $linuxServerModel = new ServerModel('nselogmanagement.serverlist');
+        $where1 = 'nselogmanagement.serverlist.flag = "Unix"';
+       
+
+        $rowsperpage = $GLOBALS['config']['rowsPerPage'];
+        $paginateOptions = paginate( $linuxServerModel, $rowsperpage, $where1);
+
+        $offset = $paginateOptions["offset"];
+        $currentpage = $paginateOptions["currentpage"];
+        $totalpages = $paginateOptions["totalpages"];
+        
+        $servers = $linuxServerModel->pageRows(0, 2000, $where1);
+
+        $serversPresent = array_column($copies, 'servername');
+        if (count($serversPresent) > 0) {
+            $where1 .= ' and nselogmanagement.serverlist.servername not in ("'. implode('","', $serversPresent). '")';
+        }
+
+        $results = $linuxServerModel->pageRows($offset, $rowsperpage, $where1);
+
+        $url = $this->getUrl();
+      
+        $showServers = true;
+        $serverType = "linux";      
+
+        $isMain = true;
+        $breadcrumb = array();
+        $breadcrumbs[] =  (object) [
+            'title' => 'Home',
+            'link' =>  "index.php",
+            "isActive" => false
+          ];
+        $breadcrumbs[] =  (object) [
+            'title' => 'Linux',
+            "isActive" => false, 
+            "link" => "index.php?p=linux&serverStatus=today"
+        ];
+        if (isset($_GET['serverStatus']) && !empty($_GET['serverStatus'])) {
+            $link = "index.php?p=linux&a=serverStatus&serverStatus=".$_GET['serverStatus'];
+            $breadcrumbs[] =  (object) [
+                'title' => "Logs not run on ". $_GET['serverStatus'],
+                "isActive" => true,
+                "link" => $link
+            ];
+        }
+       
+        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux&serverStatus=today");
+
+        $pageContent = VIEW_PATH . "notRunServerList.php";
+
+        include VIEW_PATH."template.php";
     }
 }
