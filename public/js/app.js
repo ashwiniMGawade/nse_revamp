@@ -151,8 +151,7 @@ $('.datepicker.statusdate').datetimepicker({
 $('.datepicker.statusdate').on('dp.change', function(e) {
   urlParams.set("serverStatus",e.date.format('YYYY-MM-DD'))
   var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + urlParams.toString();
-  // window.location.search = newUrl;
-  window.history.pushState({path:newUrl},'',newUrl);
+  window.location = newUrl;
 });
 
 
