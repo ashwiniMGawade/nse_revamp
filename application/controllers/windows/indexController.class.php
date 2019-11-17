@@ -325,4 +325,88 @@ class IndexController extends BaseController{
         exit;
     }
 
+    
+    public function getServerDataAction() {    
+        $serverStatus = 'today';
+        if (isset($_POST['serverStatus']) && !empty($_POST['serverStatus'])) {      
+            $serverStatus = urldecode($_POST['serverStatus']);
+        }
+
+        $validStatusToAssign = ["Run", "Not Run"]; 
+              
+        $model =  new WindowsCopyModel("nselogmanagement.windowslog");
+        $results = $model->getWindowsServerStatus($serverStatus);
+     
+        $where = 'nselogmanagement.serverlist.flag = "Windows"';
+        $serverModel = new ServerModel('nselogmanagement.serverList');
+        $total = $serverModel->total($where);
+        $data = array();
+        $data[0]= array("Status", "Count");
+        $data[1] = array("Run",  count( $results));
+        $data[2] = array("Not Run",  $total - count( $results));
+      
+        echo json_encode($data);
+        exit;
+    }
+
+    public function serverStatusAction() {  
+        $serverStatus = 'today';
+        if (isset($_GET['serverStatus']) && !empty($_GET['serverStatus'])) {      
+            $serverStatus = urldecode($_GET['serverStatus']);
+        }
+        $windowsCopyModel = new WindowsCopyModel("nselogmanagement.windowslog");
+        $copies = $windowsCopyModel->getLinuxServerStatus($serverStatus);
+
+        $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
+        $where1 = 'nselogmanagement.serverlist.flag = "Windows"';
+       
+
+        $rowsperpage = $GLOBALS['config']['rowsPerPage'];
+        $paginateOptions = paginate( $windowsServerModel, $rowsperpage, $where1);
+
+        $offset = $paginateOptions["offset"];
+        $currentpage = $paginateOptions["currentpage"];
+        $totalpages = $paginateOptions["totalpages"];
+        
+        $servers = $windowsServerModel->pageRows(0, 2000, $where1);
+
+        $serversPresent = array_column($copies, 'servername');
+        if (count($serversPresent) > 0) {
+            $where1 .= ' and nselogmanagement.serverlist.servername not in ("'. implode('","', $serversPresent). '")';
+        }
+
+        $results = $windowsServerModel->pageRows($offset, $rowsperpage, $where1);
+
+        $url = $this->getUrl();
+      
+        $showServers = true;
+        $serverType = "windows";      
+
+        $isMain = true;
+        $breadcrumb = array();
+        $breadcrumbs[] =  (object) [
+            'title' => 'Home',
+            'link' =>  "index.php",
+            "isActive" => false
+          ];
+        $breadcrumbs[] =  (object) [
+            'title' => 'Windows',
+            "isActive" => false, 
+            "link" => "index.php?p=windows&serverStatus=today"
+        ];
+        if (isset($_GET['serverStatus']) && !empty($_GET['serverStatus'])) {
+            $link = "index.php?p=windows&a=serverStatus&serverStatus=".$_GET['serverStatus'];
+            $breadcrumbs[] =  (object) [
+                'title' => "Logs not run on ". $_GET['serverStatus'],
+                "isActive" => true,
+                "link" => $link
+            ];
+        }
+       
+        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows&serverStatus=today");
+
+        $pageContent = VIEW_PATH . "notRunServerList.php";
+
+        include VIEW_PATH."template.php";
+    }
 }

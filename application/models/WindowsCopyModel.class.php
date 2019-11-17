@@ -26,4 +26,28 @@ class WindowsCopyModel extends Model{
         return $wincopies;
     }
 
+
+    public function getWindowsServerStatus($date = '') {
+        $sql = "SELECT serverlist.servername, date(windowslog.starttime), count(*) FROM nselogmanagement.windowslog right join nselogmanagement.serverlist
+        on nselogmanagement.serverlist.servername = nselogmanagement.windowslog.servername
+        where nselogmanagement.serverlist.flag = 'Windows' ";
+
+     
+        if($date) {
+            $sqlDate = "date('$date')";
+            if( $date == "today") {
+                $sqlDate = "date(CURDATE())";
+            }
+            $sql .= " and date(nselogmanagement.windowslog.starttime) = $sqlDate";
+        }
+
+        $sql .= "  group by serverlist.servername;";
+
+        // print_R($sql);
+       
+        $wincopies = $this->db->getAll($sql);
+
+        return $wincopies;
+    }
+
 }
