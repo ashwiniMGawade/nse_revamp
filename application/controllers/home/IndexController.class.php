@@ -39,6 +39,24 @@ class IndexController extends BaseController{
 
     }
 
+    public function notFoundAction(){
+
+        // Load View template
+        $isMain = true;
+        $breadcrumbs = array();
+        $breadcrumbs[] =  (object) [
+            'title' => 'Home',
+            'link' =>  "index.php",
+            "isActive" => "true"
+          ];
+        $lnavElement = array("element" => "Home", "link"=> "index.php");
+
+        $pageContent = VIEW_PATH . "404.php";
+
+        include VIEW_PATH."template.php";
+
+    }
+
 
     public function menuAction(){
 

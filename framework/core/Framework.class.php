@@ -126,7 +126,16 @@ class Framework {
 
         $controller = new $controller_name;
 
-        $controller->$action_name();
+        //check if the action exists inside the class
+        $methodExists = method_exists($controller, $action_name);
+
+        if (!$methodExists) {
+            //show 404 page
+            $controller = new IndexController;
+            $controller->notFoundAction();
+        } else {
+            $controller->$action_name();
+        }
  
     }
 }
