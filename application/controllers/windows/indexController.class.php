@@ -26,7 +26,7 @@ class IndexController extends BaseController{
             'title' => 'Windows',
             "isActive" => true
         ];
-        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows");
+        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows&serverStatus=today");
         $pageContent = CURR_VIEW_PATH . "windowsServer.php";
 
         include VIEW_PATH."template.php";
@@ -69,14 +69,14 @@ class IndexController extends BaseController{
         $breadcrumbs[] =  (object) [
             'title' => 'Windows',
             "isActive" => false,
-            'link' => "index.php?p=windows"
+            'link' => "index.php?p=windows&serverStatus=today"
         ];
 
         $breadcrumbs[] =  (object) [
             'title' => implode(',', $serverName),
             "isActive" => true
         ];
-        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows");
+        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows&serverStatus=today");
         $pageContent = CURR_VIEW_PATH . "windowsServer.php";
 
         include VIEW_PATH."template.php";
@@ -113,7 +113,7 @@ class IndexController extends BaseController{
         $breadcrumbs[] =  (object) [
             'title' => 'Windows',
             "isActive" => false, 
-            "link" => "index.php?p=windows"
+            "link" => "index.php?p=windows&serverStatus=today"
         ];
 
         
@@ -133,7 +133,7 @@ class IndexController extends BaseController{
             'title' => 'Copy',
             "isActive" => true
         ];
-        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows");
+        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows&serverStatus=today");
 
         $pageContent = CURR_VIEW_PATH . "windowsCopies.php";
 
@@ -174,11 +174,11 @@ class IndexController extends BaseController{
         $breadcrumbs[] =  (object) [
             'title' => 'Windows',
             "isActive" => false, 
-            "link" => "index.php?p=windows"
+            "link" => "index.php?p=windows&serverStatus=today"
         ];
         if (isset($_GET['name']) && !empty($_GET['name'])) {
             $serverName = implode(',', $_GET['name']);
-            $link = "index.php?p=linux";
+            $link = "index.php?p=windows&serverStatus=today";
             foreach($_GET['name'] as $server_name) {
                 $link .= "&name=".$server_name;
             }
@@ -192,7 +192,7 @@ class IndexController extends BaseController{
             'title' => 'Check',
             "isActive" => true
         ];
-        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows");
+        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows&serverStatus=today");
 
         $pageContent = CURR_VIEW_PATH . "windowsChecks.php";
 
@@ -337,7 +337,7 @@ class IndexController extends BaseController{
         $model =  new WindowsCopyModel("nselogmanagement.windowslog");
         $results = $model->getWindowsServerStatus($serverStatus);
      
-        $where = 'nselogmanagement.serverlist.flag = "Windows"';
+        $where = 'nselogmanagement.serverlist.flag = "Windows" and nselogmanagement.serverlist.logcollection = "Enabled" ';
         $serverModel = new ServerModel('nselogmanagement.serverList');
         $total = $serverModel->total($where);
         $data = array();
@@ -355,10 +355,10 @@ class IndexController extends BaseController{
             $serverStatus = urldecode($_GET['serverStatus']);
         }
         $windowsCopyModel = new WindowsCopyModel("nselogmanagement.windowslog");
-        $copies = $windowsCopyModel->getLinuxServerStatus($serverStatus);
+        $copies = $windowsCopyModel->getWindowsServerStatus($serverStatus);
 
         $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
-        $where1 = 'nselogmanagement.serverlist.flag = "Windows"';
+        $where1 = 'nselogmanagement.serverlist.flag = "Windows" and nselogmanagement.serverlist.logcollection = "Enabled" ';
        
 
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];

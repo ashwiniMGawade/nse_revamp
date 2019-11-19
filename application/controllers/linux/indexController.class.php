@@ -340,7 +340,7 @@ class IndexController extends BaseController{
         $model =  new LinuxCopyModel("nselogmanagement.unixlog");
         $results = $model->getLinuxServerStatus($serverStatus);
      
-        $where = 'nselogmanagement.serverlist.flag = "Unix"';
+        $where = 'nselogmanagement.serverlist.flag = "Unix" and nselogmanagement.serverlist.logcollection = "Enabled" ';
         $serverModel = new ServerModel('nselogmanagement.serverList');
         $total = $serverModel->total($where);
         $data = array();
@@ -361,7 +361,7 @@ class IndexController extends BaseController{
         $copies = $linuxCopyModel->getLinuxServerStatus($serverStatus);
 
         $linuxServerModel = new ServerModel('nselogmanagement.serverlist');
-        $where1 = 'nselogmanagement.serverlist.flag = "Unix"';
+        $where1 = 'nselogmanagement.serverlist.flag = "Unix" and nselogmanagement.serverlist.logcollection = "Enabled"';
        
 
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];

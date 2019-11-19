@@ -6,7 +6,7 @@
       <tr>
         <th>Server Name<a href="<?php echo sortorder($url, 'servername'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('servername');?>"></i></a></th>
         <th>Server IP</th>
-        <th>Local Drive</th>
+        <th>Source Path</th>
         <th>Network Path</th>
         <th>Destination Path</th>
         <th>Start DateTime <a href="<?php echo sortorder($url, 'starttime'); ?>"><i class="fa fa-fw fa-sort <?php echo getSortClass('starttime');?>"></i></a></th>
@@ -23,7 +23,7 @@
       <tr >
         <td><?php echo $row["servername"]; ?></td>
         <td><?php echo $row["serverip"]; ?></td>
-        <td><?php echo $row["localdrive"]; ?></td>
+        <td><?php echo $row["sourcepath"]; ?></td>
         <td><?php echo $row["networkpath"]; ?></td>
         <td><?php echo $row["destinationpath"]; ?></td>
         <td><?php echo $row["starttime"]; ?></td>
@@ -36,7 +36,7 @@
             <tr class="Success">
         <td><?php echo $row["servername"]; ?></td>
         <td><?php echo $row["serverip"]; ?></td>
-        <td><?php echo $row["localdrive"]; ?></td>
+        <td><?php echo $row["sourcepath"]; ?></td>
         <td><?php echo $row["networkpath"]; ?></td>
         <td><?php echo $row["destinationpath"]; ?></td>
         <td><?php echo $row["starttime"]; ?></td>

@@ -5,7 +5,8 @@ class Framework {
 
     public static function run() {
 
-        // echo "run()";
+        self::runConfiguration();
+
         self::init();
 
         self::autoload();
@@ -14,10 +15,33 @@ class Framework {
 
     }
 
+    public static function runConfiguration() {
+        // toggle this to change the setting
+        define('DEBUG', true); 
+        // you want all errors to be triggered
+        error_reporting(E_ALL); 
+
+        if(DEBUG == true)
+        {
+            // you're developing, so you want all errors to be shown
+            ini_set('display_errors', 'On');
+            // logging is usually overkill during dev
+            ini_set('log_errors', 'Off');
+        }
+        else
+        {
+            // you don't want to display errors on a prod environment
+            ini_set('display_errors', 'Off'); 
+            // you definitely wanna log any occurring
+            ini_set('log_errors', 'On');
+        }
+    }
+
     // Initialization
     private static function init() {
         // Define path constants
-        // echo "init callae";
+        // echo "init callad";
+        
         define("DS", DIRECTORY_SEPARATOR);
 
         define("ROOT", getcwd() . DS);

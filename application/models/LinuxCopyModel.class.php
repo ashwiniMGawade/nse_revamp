@@ -26,7 +26,7 @@ class LinuxCopyModel extends Model{
     public function getLinuxServerStatus($date = '') {
         $sql = "SELECT serverlist.servername, date(unixlog.starttime), count(*) FROM nselogmanagement.unixlog right join nselogmanagement.serverlist
         on nselogmanagement.serverlist.servername = nselogmanagement.unixlog.servername
-        where nselogmanagement.serverlist.flag = 'Unix' ";
+        where nselogmanagement.serverlist.flag = 'Unix' and nselogmanagement.serverlist.logcollection = 'Enabled' ";
 
      
         if($date) {

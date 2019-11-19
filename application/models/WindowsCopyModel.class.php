@@ -30,7 +30,7 @@ class WindowsCopyModel extends Model{
     public function getWindowsServerStatus($date = '') {
         $sql = "SELECT serverlist.servername, date(windowslog.starttime), count(*) FROM nselogmanagement.windowslog right join nselogmanagement.serverlist
         on nselogmanagement.serverlist.servername = nselogmanagement.windowslog.servername
-        where nselogmanagement.serverlist.flag = 'Windows' ";
+        where nselogmanagement.serverlist.flag = 'Windows' and nselogmanagement.serverlist.logcollection = 'Enabled' ";
 
      
         if($date) {

@@ -17,7 +17,7 @@
             <tr>
                 <td><?php echo $row["servername"]; ?></td>
                 <td><?php echo $row["serverip"]; ?></td>
-                <td><?php echo $_GET["serverStatus"] == "today"? date("y-m-d") : $_GET["serverStatus"] ?></td>
+                <td><?php echo $_GET["serverStatus"] == "today"? date("Y-m-d") : $_GET["serverStatus"] ?></td>
             </tr>
              <?php } ?>
         </tbody>
