@@ -11,7 +11,7 @@ class IndexController extends BaseController{
     public function indexAction() {
         $serverModel = new ServerModel('nselogmanagement.serverList');
         $where = 'nselogmanagement.serverlist.flag = "Unix"';
-        $servers = $serverModel->pageRows(0, 10, $where);
+        $servers = $serverModel->pageRows(0, 2000, $where);
         $showServers = true;
         $serverType = "linux";
 
@@ -26,7 +26,7 @@ class IndexController extends BaseController{
             'title' => 'Linux',
             "isActive" => true
         ];
-        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux&serverStatus=today");
+        $lnavElement = array("element" => "Linux Servers", "link"=> "index.php?p=linux&a=serverList");
 
         $pageContent = CURR_VIEW_PATH . "linuxServer.php";
 
@@ -40,11 +40,10 @@ class IndexController extends BaseController{
             $where .= 'and nselogmanagement.serverList.servername like "%'.$search.'%"';
          }
         $serverModel = new ServerModel('nselogmanagement.serverList');
-        $servers = $serverModel->pageRows(0, 1000, $where);
+        $servers = $serverModel->pageRows(0, 2000, $where);
         echo json_encode($servers);
 
-    }
-
+    } 
     
     private function getConditionsData() {
         $where = '';
@@ -62,7 +61,7 @@ class IndexController extends BaseController{
             $where .= 'LOWER(status) =LOWER("'.$status.'") and ';
         }
 
-       $datefieldName = ($this->isChecks() ? 'time': 'starttime');
+        $datefieldName = 'starttime';
         if (isset($_GET['startDate']) && $_GET['startDate'] != '' && isset($_GET['endDate']) && $_GET['endDate'] != '') {
             $startdate = urldecode($_GET['startDate']);
             $enddate = urldecode($_GET['endDate']);  
@@ -145,74 +144,13 @@ class IndexController extends BaseController{
         ];
 
        
-        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux&serverStatus=today");
+        $lnavElement = array("element" => "Linux Servers", "link"=> "index.php?p=linux&a=serverList");
 
         $pageContent = CURR_VIEW_PATH . "linuxCopies.php";
 
         include VIEW_PATH."template.php";
     }
-
-    public function checksAction() {
-        $where = $this->getConditionsData();       
-        $validStatusToAssign = ["success", "failed"];
-        $linuxCheckModel = new LinuxCheckModel("nselogmanagement.unixcheck");
-
-        $rowsperpage = $GLOBALS['config']['rowsPerPage'];
-        $paginateOptions = paginate( $linuxCheckModel, $rowsperpage, $where);
-
-        $offset = $paginateOptions["offset"];
-        $currentpage = $paginateOptions["currentpage"];
-        $totalpages = $paginateOptions["totalpages"];
-        $sortingInfo = $this->getSortinginfo();
-
-        $where1 = 'nselogmanagement.serverlist.flag = "Unix"';
-        $linuxServerModel = new ServerModel('nselogmanagement.serverlist');
-        $servers = $linuxServerModel->pageRows(0, 2000, $where1);
-
-        $checks = $linuxCheckModel->pageRows($offset, $rowsperpage, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
-
-        $url = $this->getUrl();
-      
-        $showServers = true;
-        $serverType = "linux";      
-
-        $isMain = true;
-        $breadcrumb = array();
-        $breadcrumbs[] =  (object) [
-            'title' => 'Home',
-            'link' =>  "index.php",
-            "isActive" => false
-          ];
-        $breadcrumbs[] =  (object) [
-            'title' => 'Linux',
-            "isActive" => false, 
-            "link" => "index.php?p=linux&serverStatus=today"
-        ];
-        if (isset($_GET['name']) && !empty($_GET['name'])) {
-            $serverName = implode(',', $_GET['name']);
-            $link = "index.php?p=linux";
-            foreach($_GET['name'] as $server_name) {
-                $link .= "&name=".$server_name;
-            }
-            $breadcrumbs[] =  (object) [
-                'title' => $serverName,
-                "isActive" => false,
-                "link" => $link
-            ];
-        }
-        $breadcrumbs[] =  (object) [
-            'title' => 'Check',
-            "isActive" => true
-        ];
-
-       
-        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux&serverStatus=today");
-
-        $pageContent = CURR_VIEW_PATH . "linuxChecks.php";
-
-        include VIEW_PATH."template.php";
-    }
-
+ 
     public function serverAction() {
         if (isset($_GET['name']) && !empty($_GET['name'])) {
             $serverName = $_GET['name'];
@@ -222,6 +160,10 @@ class IndexController extends BaseController{
         }
         
         $showServers = true;
+        $serverModel = new ServerModel('nselogmanagement.serverList');
+        $where = 'nselogmanagement.serverlist.flag = "Unix"';
+        $servers = $serverModel->pageRows(0, 2000, $where);
+
         $serverType = "linux";
 
         $isMain = true;
@@ -241,69 +183,36 @@ class IndexController extends BaseController{
             'title' => implode(',', $serverName),
             "isActive" => true
         ];
-        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux&serverStatus=today");
+        $lnavElement = array("element" => "Linux Servers", "link"=> "index.php?p=linux&a=serverList");
         $pageContent = CURR_VIEW_PATH . "linuxServer.php";
 
         include VIEW_PATH."template.php";
     }
 
-
-
     public function downloadAction(){
         $where = $this->getConditionsData();
         $model =  new LinuxCopyModel("nselogmanagement.unixlog");
         $sortingInfo = $this->getSortinginfo(); 
-      
-        if ($this->isChecks()) {
-            $model =  new LinuxCheckModel("nselogmanagement.unixcheck");
-        }
-        $data = $model->pageRows(0, 1000, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
+        $data = $model->pageRows(0, 100000, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
 
         download_send_headers("data_export_windows_" . date("Y-m-d") . ".csv");
         echo array2csv($data);
         die();
     
     }
-
-    
-    private function isChecks() {
-        if (ACTION == "checks") {
-            return true;
-        } else {
-            if(ACTION == "download" && isset($_GET['param']) && $_GET['param']=="checks") {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public function getDataAction() {    
         $serverName = array();
         if (isset($_POST['name']) && !empty($_POST['name'])) {      
             $serverName = $_POST['name'];
         }
-        $type = "copy"; 
-        if (isset($_POST['type']) && $_POST['type'] != '') {      
-            $type = urldecode($_POST['type']);
-        } 
-       
         $day = '';
 
         if (isset($_POST['day']) && $_POST['day'] != '') {      
             $day = urldecode($_POST['day']);
         }
-
-        if ($type == "copy") {
-            $validStatusToAssign = ["Success",  "Warning", "Started", "In-Progress", "Failed"]; 
-            $model =  new LinuxCopyModel("nselogmanagement.unixlog");
-            $results = $model->getLinuxCopies( $serverName, $day);
-        } else {
-            $validStatusToAssign = ["Success", "Failed"];
-            $model =  new LinuxCheckModel("nselogmanagement.unixcheck");
-            $results = $model->getLinuxChecks( $serverName, $day);          
-        }
-
-
+        $validStatusToAssign = ["Success",  "Warning", "Started", "In-Progress", "Failed"]; 
+        $model =  new LinuxCopyModel("nselogmanagement.unixlog");
+        $results = $model->getLinuxCopies( $serverName, $day);
         $data = array();
         $data[0]= array("Status", "Count");
 
@@ -361,23 +270,23 @@ class IndexController extends BaseController{
         $copies = $linuxCopyModel->getLinuxServerStatus($serverStatus);
 
         $linuxServerModel = new ServerModel('nselogmanagement.serverlist');
-        $where1 = 'nselogmanagement.serverlist.flag = "Unix" and nselogmanagement.serverlist.logcollection = "Enabled"';
-       
+        $where1 = 'nselogmanagement.serverlist.flag = "Unix" ';
+        $servers = $linuxServerModel->pageRows(0, 2000, $where1);
 
+        $where1 .= ' and nselogmanagement.serverlist.logcollection = "Enabled"';   
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];
+        $serversPresent = array_column($copies, 'servername');
+        if (count($serversPresent) > 0) {
+            $where1 .= ' and nselogmanagement.serverlist.servername not in ("'. implode('","', $serversPresent). '")';
+        }
+
         $paginateOptions = paginate( $linuxServerModel, $rowsperpage, $where1);
 
         $offset = $paginateOptions["offset"];
         $currentpage = $paginateOptions["currentpage"];
         $totalpages = $paginateOptions["totalpages"];
         
-        $servers = $linuxServerModel->pageRows(0, 2000, $where1);
-
-        $serversPresent = array_column($copies, 'servername');
-        if (count($serversPresent) > 0) {
-            $where1 .= ' and nselogmanagement.serverlist.servername not in ("'. implode('","', $serversPresent). '")';
-        }
-
+       
         $results = $linuxServerModel->pageRows($offset, $rowsperpage, $where1);
 
         $url = $this->getUrl();
@@ -406,9 +315,52 @@ class IndexController extends BaseController{
             ];
         }
        
-        $lnavElement = array("element" => "Linux Server", "link"=> "index.php?p=linux&serverStatus=today");
+        $lnavElement = array("element" => "Linux Servers", "link"=> "index.php?p=linux&a=serverList");
 
         $pageContent = VIEW_PATH . "notRunServerList.php";
+
+        include VIEW_PATH."template.php";
+    }
+
+    public function serverListAction() {
+        $serverModel = new ServerModel('nselogmanagement.serverList');
+        $where = 'nselogmanagement.serverlist.flag = "Unix"';
+        $servers = $serverModel->pageRows(0, 2000, $where);
+        $showServers = true;
+
+        $rowsperpage = $GLOBALS['config']['rowsPerPage'];
+        $paginateOptions = paginate( $serverModel, $rowsperpage, $where);
+
+        $offset = $paginateOptions["offset"];
+        $currentpage = $paginateOptions["currentpage"];
+        $totalpages = $paginateOptions["totalpages"];
+        
+        $results = $serverModel->pageRows($offset, $rowsperpage, $where);
+
+        $url = $this->getUrl();
+      
+        $serverType = "linux";
+
+        $isMain = true;
+        $breadcrumb = array();
+        $breadcrumbs[] =  (object) [
+            'title' => 'Home',
+            'link' =>  "index.php",
+            "isActive" => false
+          ];
+        $breadcrumbs[] =  (object) [
+            'title' => 'Linux',
+            "isActive" => false,
+            'link' => "index.php?p=linux&serverStatus=today"
+        ];
+
+        $breadcrumbs[] =  (object) [
+            'title' => 'Servers',
+            "isActive" => true
+        ];
+        $lnavElement = array("element" => "Linux Servers", "link"=> "index.php?p=linux&a=serverList");
+
+        $pageContent = VIEW_PATH . "serverList.php";
 
         include VIEW_PATH."template.php";
     }

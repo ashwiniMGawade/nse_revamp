@@ -11,7 +11,7 @@ class IndexController extends BaseController{
     public function indexAction() {       
         $serverModel = new ServerModel('nselogmanagement.serverList');
         $where = 'nselogmanagement.serverlist.flag = "Windows"';
-        $servers = $serverModel->pageRows(0, 10, $where);
+        $servers = $serverModel->pageRows(0, 2000, $where);
         $showServers = true;
         $serverType = "windows";
 
@@ -26,7 +26,7 @@ class IndexController extends BaseController{
             'title' => 'Windows',
             "isActive" => true
         ];
-        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows&serverStatus=today");
+        $lnavElement = array("element" => "Windows Servers", "link"=> "index.php?p=windows&a=serverList");
         $pageContent = CURR_VIEW_PATH . "windowsServer.php";
 
         include VIEW_PATH."template.php";
@@ -40,7 +40,7 @@ class IndexController extends BaseController{
             $where .= 'and nselogmanagement.serverlist.servername like "%'.$search.'%"';
          }
         $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
-        $servers = $windowsServerModel->pageRows(0, 1000, $where);
+        $servers = $windowsServerModel->pageRows(0, 2000, $where);
         echo json_encode($servers);
 
     }
@@ -54,7 +54,7 @@ class IndexController extends BaseController{
         }
         $where = 'nselogmanagement.serverlist.flag = "Windows"';
         $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
-        $servers = $windowsServerModel->pageRows(0, 10, $where);
+        $servers = $windowsServerModel->pageRows(0, 2000, $where);
 
         $showServers = true;
         $serverType = "windows";
@@ -76,7 +76,7 @@ class IndexController extends BaseController{
             'title' => implode(',', $serverName),
             "isActive" => true
         ];
-        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows&serverStatus=today");
+        $lnavElement = array("element" => "Windows Servers", "link"=> "index.php?p=windows&a=serverList");
         $pageContent = CURR_VIEW_PATH . "windowsServer.php";
 
         include VIEW_PATH."template.php";
@@ -133,68 +133,9 @@ class IndexController extends BaseController{
             'title' => 'Copy',
             "isActive" => true
         ];
-        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows&serverStatus=today");
+        $lnavElement = array("element" => "Windows Servers", "link"=> "index.php?p=windows&a=serverList");
 
         $pageContent = CURR_VIEW_PATH . "windowsCopies.php";
-
-        include VIEW_PATH."template.php";
-    }
-
-
-    public function checksAction() {
-        $where = $this->getConditionsData();
-        $validStatusToAssign = ["success", "failed"];
-        $windowsCheckModel = new WindowsCheckModel("nselogmanagement.windowscheck");
-        $rowsperpage = $GLOBALS['config']['rowsPerPage'];
-        $paginateOptions = paginate( $windowsCheckModel, $rowsperpage, $where);
-        $offset = $paginateOptions["offset"];
-        $currentpage = $paginateOptions["currentpage"];
-        $totalpages = $paginateOptions["totalpages"];
-        $sortingInfo = $this->getSortinginfo();
-
-        $where1 = 'nselogmanagement.serverlist.flag = "Windows"';
-        $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
-        $servers = $windowsServerModel->pageRows(0, 2000, $where1);
-
-
-        $checks = $windowsCheckModel->pageRows($offset, $rowsperpage, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
-
-        $url = $this->getUrl();
-
-        $showServers = true;
-        $serverType = "windows";
-
-        $isMain = true;
-        $breadcrumb = array();
-        $breadcrumbs[] =  (object) [
-            'title' => 'Home',
-            'link' =>  "index.php",
-            "isActive" => false
-          ];
-        $breadcrumbs[] =  (object) [
-            'title' => 'Windows',
-            "isActive" => false, 
-            "link" => "index.php?p=windows&serverStatus=today"
-        ];
-        if (isset($_GET['name']) && !empty($_GET['name'])) {
-            $serverName = implode(',', $_GET['name']);
-            $link = "index.php?p=windows&serverStatus=today";
-            foreach($_GET['name'] as $server_name) {
-                $link .= "&name=".$server_name;
-            }
-            $breadcrumbs[] =  (object) [
-                'title' => $serverName,
-                "isActive" => false,
-                "link" => $link
-            ];
-        }
-        $breadcrumbs[] =  (object) [
-            'title' => 'Check',
-            "isActive" => true
-        ];
-        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows&serverStatus=today");
-
-        $pageContent = CURR_VIEW_PATH . "windowsChecks.php";
 
         include VIEW_PATH."template.php";
     }
@@ -215,7 +156,7 @@ class IndexController extends BaseController{
             $where .= 'LOWER(status) like "'.strtolower($status).'%" and ';
         }
 
-        $fieldName = ($this->isChecks() ? 'time': 'starttime');
+        $fieldName = 'starttime';
         if (isset($_GET['startDate']) && $_GET['startDate'] != '' && isset($_GET['endDate']) && $_GET['endDate'] != '') {
             $startdate = urldecode($_GET['startDate']);
             $enddate = urldecode($_GET['endDate']);  
@@ -253,27 +194,13 @@ class IndexController extends BaseController{
         $where = $this->getConditionsData();
         $model =  new WindowsCopyModel("nselogmanagement.windowslog");
         $sortingInfo = $this->getSortinginfo(); 
-      
-        if ($this->isChecks()) {
-            $model =  new WindowsCheckModel("nselogmanagement.windowscheck");
-        }
+       
         $data = $model->pageRows(0, 1000, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
 
         download_send_headers("data_export_windows_" . date("Y-m-d") . ".csv");
         echo array2csv($data);
         die();
     
-    }
-
-    private function isChecks() {
-        if (ACTION == "checks") {
-            return true;
-        } else {
-            if(ACTION == "download" && isset($_GET['param']) && $_GET['param']=="checks") {
-                return true;
-            }
-        }
-        return false;
     }
 
     public function getDataAction() {     
@@ -289,14 +216,9 @@ class IndexController extends BaseController{
         if (isset($_POST['day']) && $_POST['day'] != '') {      
             $day = urldecode($_POST['day']);
         }
-        $results = '';    
-        if ($type == "copy") {
-            $model =  new WindowsCopyModel("nselogmanagement.windowslog");
-            $results = $model->getWindowsCopies( $serverName, $day);
-        } else {
-            $model =  new WindowsCheckModel("nselogmanagement.windowscheck");
-            $results = $model->getWindowsChecks( $serverName, $day);          
-        }
+        $results = '';   
+        $model =  new WindowsCopyModel("nselogmanagement.windowslog");
+        $results = $model->getWindowsCopies( $serverName, $day);       
 
         $data = array();
         $data[0]= array("Status", "Count");
@@ -359,21 +281,22 @@ class IndexController extends BaseController{
 
         $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
         $where1 = 'nselogmanagement.serverlist.flag = "Windows" and nselogmanagement.serverlist.logcollection = "Enabled" ';
-       
-
-        $rowsperpage = $GLOBALS['config']['rowsPerPage'];
-        $paginateOptions = paginate( $windowsServerModel, $rowsperpage, $where1);
-
-        $offset = $paginateOptions["offset"];
-        $currentpage = $paginateOptions["currentpage"];
-        $totalpages = $paginateOptions["totalpages"];
-        
         $servers = $windowsServerModel->pageRows(0, 2000, $where1);
 
+        $rowsperpage = $GLOBALS['config']['rowsPerPage'];
+       
         $serversPresent = array_column($copies, 'servername');
         if (count($serversPresent) > 0) {
             $where1 .= ' and nselogmanagement.serverlist.servername not in ("'. implode('","', $serversPresent). '")';
         }
+
+        $paginateOptions = paginate( $windowsServerModel, $rowsperpage, $where1);
+        
+        $offset = $paginateOptions["offset"];
+        $currentpage = $paginateOptions["currentpage"];
+        $totalpages = $paginateOptions["totalpages"];
+        
+        
 
         $results = $windowsServerModel->pageRows($offset, $rowsperpage, $where1);
 
@@ -403,9 +326,59 @@ class IndexController extends BaseController{
             ];
         }
        
-        $lnavElement = array("element" => "Windows Server", "link"=> "index.php?p=windows&serverStatus=today");
+        $lnavElement = array("element" => "Windows Servers", "link"=> "index.php?p=windows&a=serverList");
 
         $pageContent = VIEW_PATH . "notRunServerList.php";
+
+        include VIEW_PATH."template.php";
+    }
+
+    public function serverListAction() {
+        $serverModel = new ServerModel('nselogmanagement.serverList');
+        $where = 'nselogmanagement.serverlist.flag = "Windows"';
+
+
+        $servers = $serverModel->pageRows(0, 2000, $where);
+        $showServers = true;
+
+        if (isset($_GET['search']) && $_GET['search'] != '') {
+            $search = urldecode($_GET['search']);
+            $where .= 'and nselogmanagement.serverlist.servername like "%'.$search.'%"';
+        }
+
+        $rowsperpage = $GLOBALS['config']['rowsPerPage'];
+        $paginateOptions = paginate( $serverModel, $rowsperpage, $where);
+
+        $offset = $paginateOptions["offset"];
+        $currentpage = $paginateOptions["currentpage"];
+        $totalpages = $paginateOptions["totalpages"];
+        
+        $results = $serverModel->pageRows($offset, $rowsperpage, $where);
+
+        $url = $this->getUrl();
+      
+        $serverType = "windows";
+
+        $isMain = true;
+        $breadcrumb = array();
+        $breadcrumbs[] =  (object) [
+            'title' => 'Home',
+            'link' =>  "index.php",
+            "isActive" => false
+          ];
+          $breadcrumbs[] =  (object) [
+            'title' => 'Windows',
+            "isActive" => false,
+            'link' => "index.php?p=windows&serverStatus=today"
+        ];
+
+        $breadcrumbs[] =  (object) [
+            'title' => 'Servers',
+            "isActive" => true
+        ];
+        $lnavElement = array("element" => "Windows Servers", "link"=> "index.php?p=windows&a=serverList");
+
+        $pageContent = VIEW_PATH . "serverList.php";
 
         include VIEW_PATH."template.php";
     }

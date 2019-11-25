@@ -1,6 +1,6 @@
 <?php
 
-function paginate($model, $rowsperpag, $where = '') {
+function paginate($model, $rowsperpage, $where = '') {
     if (isset($_GET['page']) && is_numeric($_GET['page'])) {
         // cast var as int
         $currentpage = (int) $_GET['page'];
@@ -8,7 +8,6 @@ function paginate($model, $rowsperpag, $where = '') {
         // default page num
         $currentpage = 1;
     }
-    $rowsperpage = 10;
     $numrows = $model->total($where);
     $totalpages = ceil($numrows / $rowsperpage);
     $offset = ($currentpage - 1) * $rowsperpage;

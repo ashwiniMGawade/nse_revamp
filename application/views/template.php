@@ -47,7 +47,7 @@ if ( !isset( $_SESSION['user'] ) ) {
         <div class="col-sm-2">
             <?php include VIEW_PATH."leftnav.php" ?>
         </div>
-        <div class="col-sm-10">
+        <div class="col-sm-10 main-content">
             <?php include VIEW_PATH."breadcrumb.php" ?>
             <?php include $pageContent ?>
         </div>

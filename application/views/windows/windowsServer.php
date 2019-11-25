@@ -83,7 +83,7 @@
                     var serverData = $.ajax({
                         url: "index.php?p=windows&a=getData",
                         type: "POST",
-                        data: {"name": name, "type": "copy", "day": urlParams.get('day') },
+                        data: {"name": name, "day": urlParams.get('day') },
                         dataType: "json",
                         async: false
                     }).responseText;

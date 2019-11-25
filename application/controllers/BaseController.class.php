@@ -22,7 +22,16 @@ class BaseController{
         if (isset($_GET['endDate']) && $_GET['endDate'] != '') {
             $enddate = urldecode($_GET['endDate']);
             $url .= "&endDate=". $enddate;
-        }     
+        } 
+        
+        if (isset($_GET['search']) && $_GET['search'] != '') {
+            $search = urldecode($_GET['search']);
+            $url .= "&search=". $search;
+        }
+
+        if (isset($_GET['serverStatus']) && $_GET['serverStatus'] != '') {
+            $url .= "&serverStatus=".$_GET['serverStatus'];
+         } 
        return $url;
     }
 

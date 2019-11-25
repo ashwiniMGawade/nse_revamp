@@ -230,5 +230,8 @@ $(document).ready(function(){
     placement: 'top',
     container: 'body'  
   }).attr('data-original-title', name != '' ? name.join(',') : 'Please select server');
+
+  var main_container_height = $(".main-content").height();
+  $("ul#serverList").css('max-height', main_container_height+'px');
  
 });

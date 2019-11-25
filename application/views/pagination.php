@@ -10,6 +10,7 @@ if (isset($_GET['order_by']) && $_GET['order_by'] != '') {
 if (isset($_GET['sort']) && $_GET['sort'] != '') {
    $url .= "&sort=".$_GET['sort'];
 } 
+
 echo "<ul class='pagination'>";
 
 // if not on page 1, don't show back links
