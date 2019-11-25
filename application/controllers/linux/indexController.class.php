@@ -328,6 +328,11 @@ class IndexController extends BaseController{
         $servers = $serverModel->pageRows(0, 2000, $where);
         $showServers = true;
 
+        if (isset($_GET['search']) && $_GET['search'] != '') {
+            $search = urldecode($_GET['search']);
+            $where .= 'and nselogmanagement.serverlist.servername like "%'.$search.'%"';
+        }
+        
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];
         $paginateOptions = paginate( $serverModel, $rowsperpage, $where);
 
