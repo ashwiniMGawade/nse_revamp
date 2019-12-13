@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <?PHP
 
-// if ( !isset( $_SESSION['user'] ) ) {
-//      // Redirect them to the login page
-//      header("Location:".$_SERVER['PHP_SELF']."?p=auth&a=login");
-//      exit;
-// }
+if ( !isset( $_SESSION['user'] ) ) {
+     // Redirect them to the login page
+     header("Location:".$_SERVER['PHP_SELF']."?p=auth&a=login");
+     exit;
+}
 ?>
 <html>
 <head>
@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="public/css/w3.css">
   <link rel="stylesheet" href="public/css/font-awesome.min.css">
   <link rel="stylesheet" media="screen" href="public/css/style.css">
-  <base href="/nse_revamp/">
+  <base href="/">
   <style>
   /* Note: Try to remove the following lines to see the effect of CSS positioning */
   .affix {
