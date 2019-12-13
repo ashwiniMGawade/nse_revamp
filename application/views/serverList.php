@@ -4,11 +4,14 @@
 
 <div class="filters">
     <div class="row">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4">
-            <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="searchServer" serverType="$serverType"  onkeyup="searchServer(this.value)" value="<?php echo isset($_GET['search'])? $_GET['search'] : ''; ?>">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-5">
+            <input autofocus class="form-control" type="text" placeholder="Search by Name or IP. Press enter to search." aria-label="Search" id="searchServer" serverType="$serverType"  onkeyup="searchServer(event, this.value)" value="<?php echo isset($_GET['search'])? $_GET['search'] : ''; ?>">
         </div>
         <div class="col-sm-4">
+        <span class="btn btn-danger" onclick="javascript:window.location='index.php?p=<?php echo PLATFORM; ?>&a=<?php echo ACTION;?>';" data-toggle="tooltip" title="Clear Filter">
+              <span class="glyphicon glyphicon-erase" style="color:white;"></span>
+          </span>
         </div>
     </div>
 </div>

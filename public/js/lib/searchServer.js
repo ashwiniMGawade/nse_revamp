@@ -26,19 +26,21 @@ function search (str) {
     }
 }
 
-function searchServer (str) {
-    if (str.length == 0) { 
-        document.getElementById("searchServer").innerHTML = "";
-        return;
-    } else {
-        var urlAppend = '';
-        var urlParams = new URLSearchParams(location.search);
-        if(urlParams.get('p') != null || urlParams.get('p') != '') {
-            urlAppend += "p="+urlParams.get('p');
+function searchServer (e, str) {
+    if(e && e.keyCode == 13) { 
+        if (str.length == 0) { 
+            document.getElementById("searchServer").innerHTML = "";
+            return;
+        } else {
+            var urlAppend = '';
+            var urlParams = new URLSearchParams(location.search);
+            if(urlParams.get('p') != null || urlParams.get('p') != '') {
+                urlAppend += "p="+urlParams.get('p');
+            }
+            urlAppend += "&a="+urlParams.get('a') + "&search="+str;
+           
+    
+            window.location.replace("index.php?"+urlAppend);
         }
-        urlAppend += "&a="+urlParams.get('a') + "&search="+str;
-       
-
-        window.location.replace("index.php?"+urlAppend);
-    }
+    }    
 }

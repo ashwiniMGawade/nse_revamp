@@ -330,9 +330,9 @@ class IndexController extends BaseController{
 
         if (isset($_GET['search']) && $_GET['search'] != '') {
             $search = urldecode($_GET['search']);
-            $where .= 'and nselogmanagement.serverlist.servername like "%'.$search.'%"';
+            $where .= 'and (nselogmanagement.serverlist.servername like "%'.$search.'%" or  nselogmanagement.serverlist.serverip like "%'.$search.'%")';
         }
-        
+
         $rowsperpage = $GLOBALS['config']['rowsPerPage'];
         $paginateOptions = paginate( $serverModel, $rowsperpage, $where);
 

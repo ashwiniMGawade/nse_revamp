@@ -73,7 +73,7 @@ html, body {
 
 ul#serverList {
   list-style-type: none;
-  max-height:500px;
+  min-height:500px;
   overflow-y:auto;
   margin-bottom:0px;
 }
