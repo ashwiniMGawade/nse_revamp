@@ -135,9 +135,16 @@ particlesJS.load('particles-js', 'particles.json', function() {
 
 var urlParams = new URLSearchParams(location.search); 
 
+var statusDate = urlParams.get('serverStatus');
+if (statusDate!= null && statusDate !="today") {  
+  statusDate = moment(statusDate);
+} else{
+  statusDate =  moment().subtract(1, 'days').startOf('day');
+} 
+
 $('.datepicker.statusdate').datetimepicker({
   maxDate: moment(),
-  date: moment().subtract(1, 'days').startOf('day'),
+  date:statusDate,
   useCurrent: false,
   format: 'YYYY-MM-DD',
   // format:"YYYY-MM-DDTHH:MM:SS.SSSZ"

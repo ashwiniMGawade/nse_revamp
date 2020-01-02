@@ -36,7 +36,7 @@ class WindowsCopyModel extends Model{
         if($date) {
             $sqlDate = "date('$date')";
             if( $date == "today") {
-                $sqlDate = "date(CURDATE())";
+                $$sqlDate = "date(CURDATE() - INTERVAL 1 DAY)";
             }
             $sql .= " and date(nselogmanagement.windowslog.starttime) = $sqlDate";
         }
