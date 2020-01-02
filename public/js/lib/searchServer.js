@@ -16,7 +16,7 @@ function search (str) {
                 if(result.length== 0) { 
                     html ="<li class='list-group-item'>No Records found</li>";
                 } else {
-                    result.forEach(row => {
+                    result.forEach(function(row) {
                         html += '<a  class="list-group-item list-group-item-action" href="index.php?p='+serverType+'&a=server&name[]='+row['servername']+'"><li >'+row['servername']+'</li></a>';
                     });
                 }

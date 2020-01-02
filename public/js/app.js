@@ -132,6 +132,7 @@ particlesJS.load('particles-js', 'particles.json', function() {
 
 );
 */
+
 var urlParams = new URLSearchParams(location.search); 
 
 $('.datepicker.statusdate').datetimepicker({

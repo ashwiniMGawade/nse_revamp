@@ -5,6 +5,7 @@
 <!-- <script src="public/js/lib/particles.js"></script> -->
 <script src="public/js/lib/csvDownload.js"></script>
 <script src="public/js/lib/bootstrap-multiselect.min.js"></script>
+<script src="public/js/lib/url-search-params-polyfill.js"></script>
 <script src="public/js/app.js"></script>
 
 <footer class="navbar-default navbar-fixed-bottom">
