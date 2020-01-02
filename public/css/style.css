@@ -2,6 +2,16 @@
 html, body {
   font-family: 'Gotham Narrow SSm A','Gotham Narrow SSm B',Helvetica,Arial,sans-serif;
   font-size:14px;
+  height:100%;
+}
+footer.navbar-default.navbar-fixed-bottom {
+  background-image: linear-gradient(to bottom,#3867b5 0,#00529c 100%);
+  background: -webkit-linear-gradient(top, #3867b5, #00529c);
+  background-color: #3867b5;
+  color: white;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  line-height: 15px;
 }
 .count-particles{
   background: #000022;
@@ -64,7 +74,6 @@ html, body {
 
 .serversSection {
   padding-top:10px;
-
 }
 
 .serversSection input{
@@ -73,9 +82,10 @@ html, body {
 
 ul#serverList {
   list-style-type: none;
-  min-height:500px;
+  min-height:400px;
   overflow-y:auto;
   margin-bottom:0px;
+  margin-bottom: 15px;
 }
 
 .list-group-flush .list-group-item {
@@ -125,15 +135,15 @@ td.text-success,td.text-danger{
 }
 
 table thead {
-  color:#337ab7;
+  color:#3867b5;
   border-width: 0px 1px 5px 1px;
   border-style: solid;
-  border-color: #337ab7;
+  border-color: #3867b5;
 }
 
 .graph-loader {
   border: 5px solid #f3f3f3; /* Light grey */
-  border-top: 4px solid #1e4a93; /* Blue */
+  border-top: 4px solid #3867b5; /* Blue */
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -181,7 +191,7 @@ table thead {
   background: #fdfdfd;
   line-height: 1px;
   border: 1px solid #ddd;
-  border-bottom: 5px solid #337ab7;
+  border-bottom: 5px solid  #3867b5;
 }
 .panel.with-nav-tabs .nav-justified{
 margin-bottom: -1px;
@@ -203,14 +213,14 @@ margin-bottom: -1px;
 .with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
 .with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
 	color: #fff;
-	background-color: #3071a9;
+	background-color: #3867b5;
 	border-color: transparent;
 }
 .with-nav-tabs.panel-primary .nav-tabs > li.active > a,
 .with-nav-tabs.panel-primary .nav-tabs > li.active > a:hover,
 .with-nav-tabs.panel-primary .nav-tabs > li.active > a:focus {
 	color: #fff;
-	background-color: #3071a9;
+	background-color: #3867b5;
 	border-color: #428bca;
 	border-bottom-color: transparent;
 }
@@ -221,7 +231,7 @@ margin-bottom: -1px;
   bottom: -24px;
   left: 0%;
   border: 15px solid transparent;
-  border-top-color: #3071a9;
+  border-top-color:  #3867b5;
 }
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu {
     background-color: #428bca;
@@ -242,7 +252,7 @@ margin-bottom: -1px;
 
 .navbar-right .dropdown-menu>li>a:focus,.navbar-right   .dropdown-menu>li>a:hover{
   color: #fff;
-  background-color: #080808;
+  background-color:#3867b5;;
 } 
 
 .multiselect-container.dropdown-menu input {
@@ -254,4 +264,221 @@ margin-bottom: -1px;
   overflow: auto;
   z-index: 9999;
 }
-  
+
+/*.breadcrumb {
+  background-color:#fff;
+}*/
+
+.breadcrumb {
+  width:100%;
+  /*centering*/
+  display: inline-block;
+  /* box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.35); */
+  overflow: hidden;
+  border-radius: 5px;
+  /*Lets add the numbers for each link using CSS counters. flag is the name of the counter. to be defined using counter-reset in the parent element of the links*/
+  counter-reset: flag; 
+}
+
+.breadcrumb a {
+  text-decoration: none;
+  outline: none;
+  display: block;
+  float: left;
+  line-height: 36px;
+  color: white;
+  /*need more margin on the left of links to accomodate the numbers*/
+  padding: 0 10px 0 60px;
+  background: #666;
+  background: linear-gradient(#666, #333);
+  position: relative;
+}
+/*since the first link does not have a triangle before it we can reduce the left padding to make it look consistent with other links*/
+.breadcrumb a:first-child {
+  padding-left: 46px;
+  border-radius: 5px 0 0 5px; /*to match with the parent's radius*/
+}
+.breadcrumb a:first-child:before {
+  left: 14px;
+}
+.breadcrumb a:last-child {
+  border-radius: 0 5px 5px 0; /*this was to prevent glitches on hover*/
+  padding-right: 20px;
+}
+
+/*hover/active styles*/
+.breadcrumb a.active, .breadcrumb a:hover{
+  background: #333;
+  background: linear-gradient(#333, #000);
+}
+.breadcrumb a.active:after, .breadcrumb a:hover:after {
+  background: #333;
+  background: linear-gradient(135deg, #333, #000);
+}
+
+/*adding the arrows for the breadcrumbs using rotated pseudo elements*/
+.breadcrumb a:after {
+  content: '';
+  position: absolute;
+  top: 0; 
+  right: -18px; /*half of square's length*/
+  /*same dimension as the line-height of .breadcrumb a */
+  width: 35px; 
+  height: 35px;
+  /*as you see the rotated square takes a larger height. which makes it tough to position it properly. So we are going to scale it down so that the diagonals become equal to the line-height of the link. We scale it to 70.7% because if square's: 
+  length = 1; diagonal = (1^2 + 1^2)^0.5 = 1.414 (pythagoras theorem)
+  if diagonal required = 1; length = 1/1.414 = 0.707*/
+  transform: scale(0.707) rotate(45deg);
+  /*we need to prevent the arrows from getting buried under the next link*/
+  z-index: 1;
+  /*background same as links but the gradient will be rotated to compensate with the transform applied*/
+  background: #666;
+  background: linear-gradient(135deg, #666, #333);
+  /*stylish arrow design using box shadow*/
+  box-shadow: 
+      2px -2px 0 2px rgba(0, 0, 0, 0.4), 
+      3px -3px 0 2px rgba(255, 255, 255, 0.1);
+  /*
+      5px - for rounded arrows and 
+      50px - to prevent hover glitches on the border created using shadows*/
+  border-radius: 0 5px 0 50px;
+}
+/*we dont need an arrow after the last link*/
+.breadcrumb a:last-child:after {
+  content: none;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #3867b5;
+  border-color: #2e6da4;
+}
+
+
+.flat a, .flat a:after {
+  background: white;
+  color: black;
+  transition: all 0.5s;
+}
+.flat a:before {
+  background: white;
+  box-shadow: 0 0 0 1px #ccc;
+}
+.flat a:hover, .flat a.active, 
+.flat a:hover:after, .flat a.active:after{
+  background: #3867b5;
+  color:white;
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover
+{
+  background: #3867b5;
+}
+
+.left-navbar {
+  padding-bottom: 10000px;
+  margin-bottom: -10000px;
+  background-color: #f9f6f6;
+}
+
+
+
+.navbar-brand, .navbar-nav > li > a {
+  text-shadow: none;
+  padding: 15px 8px;
+  font-size:14px;
+}
+.navbar-custom {
+  background-image: linear-gradient(to bottom,#3867b5 0,#00529c 100%);
+  background: -webkit-linear-gradient(top, #3867b5, #00529c);
+  background-color: #3867b5;
+  border-color: #00529c;
+}
+.navbar-custom .navbar-brand {
+  color: #fff;
+}
+.navbar-custom .navbar-brand:hover,
+.navbar-custom .navbar-brand:focus {
+  color: #fff;
+  background-color: transparent;
+}
+.navbar-custom .navbar-text {
+  color: #fff;
+}
+.navbar-custom .navbar-nav > li > a {
+  color: #fff;
+}
+.navbar-custom .navbar-nav > li > a:hover,
+.navbar-custom .navbar-nav > li > a:focus {
+  color: #fff;
+  background-color: transparent;
+}
+.navbar-custom .navbar-nav > .active > a,
+.navbar-custom .navbar-nav > .active > a:hover,
+.navbar-custom .navbar-nav > .active > a:focus {
+  color: #fff;
+  background-color: #294b89;
+  background-image: none;
+}
+.navbar-custom .navbar-nav > .disabled > a,
+.navbar-custom .navbar-nav > .disabled > a:hover,
+.navbar-custom .navbar-nav > .disabled > a:focus {
+  color: #444;
+  background-color: transparent;
+}
+.navbar-custom .navbar-toggle {
+  border-color: #333;
+}
+.navbar-custom .navbar-toggle:hover,
+.navbar-custom .navbar-toggle:focus {
+  background-color: #333;
+}
+.navbar-custom .navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+.navbar-custom .navbar-collapse{
+  max-height: none;
+}
+.navbar-custom .navbar-collapse,
+.navbar-custom .navbar-form {
+  border-color: #101010;
+}
+.navbar-custom .navbar-nav > .open > a,
+.navbar-custom .navbar-nav > .open > a:hover,
+.navbar-custom .navbar-nav > .open > a:focus {
+  color: #fff;
+  background-color: #294b89;
+  background-image: none;
+}
+@media (max-width: 767px) {
+  .navbar-custom .navbar-nav .open .dropdown-menu > .dropdown-header {
+    border-color: #294b89;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu .divider {
+    background-color: #294b89;
+    background-image: none;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a {
+    color: #fff;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #fff;
+    background-color: #294b89;
+    background-image: none;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #fff;
+    background-color: #294b89;
+    background-image: none;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+    color: #444;
+    background-color: transparent;
+    background-image: none;
+  }
+
+ 

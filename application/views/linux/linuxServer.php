@@ -33,6 +33,7 @@
                              colors: ['green', '#428bca']
                          };  
                          $("#loader-server-status").hide();
+                         loadSidebarLength();
                          var chart = new google.visualization.PieChart(document.getElementById('piechart_server_status'));  
                          chart.draw(data, options); 
 
@@ -98,6 +99,7 @@
                                 colors: ['red', '#428bca', '#43459d', 'green', 'orange']
                             };  
                             $("#loader-copy").hide();
+                            loadSidebarLength();
                             var chart = new google.visualization.PieChart(document.getElementById('piechart_copy'));  
                             chart.draw(data, options); 
 

@@ -25,13 +25,14 @@ class IndexController extends BaseController{
 
         // Load View template
         $isMain = true;
+        $hideSideBar = true;
         $breadcrumbs = array();
         $breadcrumbs[] =  (object) [
-            'title' => 'Home',
+            'title' => '<i class="fa fa-home"></i> Home',
             'link' =>  "index.php",
             "isActive" => "true"
           ];
-        $lnavElement = array("element" => "Home", "link"=> "index.php");
+        $lnavElement = array("element" =>'<i class="fa fa-home"></i> Home', "link"=> "index.php");
 
         $pageContent = CURR_VIEW_PATH . "index.php";
 

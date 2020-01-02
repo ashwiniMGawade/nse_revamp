@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <?PHP
 
-if ( !isset( $_SESSION['user'] ) ) {
-     // Redirect them to the login page
-     header("Location:".$_SERVER['PHP_SELF']."?p=auth&a=login");
-     exit;
-}
+// if ( !isset( $_SESSION['user'] ) ) {
+//      // Redirect them to the login page
+//      header("Location:".$_SERVER['PHP_SELF']."?p=auth&a=login");
+//      exit;
+// }
 ?>
 <html>
 <head>
@@ -36,15 +36,15 @@ if ( !isset( $_SESSION['user'] ) ) {
 </head>
 <body>
 
-<?php if($isMain) { ?>
+<!-- <?php if($isMain) { ?>
     <div class="container-fluid" id="particles-js" style="height:150px;width: 100%;"></div>
-<?php } ?>
+<?php } ?> -->
 
 <?php include VIEW_PATH."header.php" ?>
 
-<div class="container-fluid" style="height:auto">
+<div class="container-fluid" style="overflow:hidden;">
   <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-2 left-navbar">
             <?php include VIEW_PATH."leftnav.php" ?>
         </div>
         <div class="col-sm-10 main-content">

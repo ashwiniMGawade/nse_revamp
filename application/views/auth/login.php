@@ -5,6 +5,7 @@
 		<link rel="shortcut icon" href="public/images/favicon.ico" type="image/x-icon">
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="public/css/font.css"> 
 		<link rel="stylesheet" href="public/css/login/bootstrap.min.css"> 
 		<link rel="stylesheet" href="public/css/login/all.css"> 
 		<link rel="stylesheet" href="public/css/login/login.css">  

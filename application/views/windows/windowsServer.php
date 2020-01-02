@@ -31,6 +31,7 @@
                              colors: ['green', '#428bca']
                          };  
                          $("#loader-server-status").hide();
+                         loadSidebarLength();
                          var chart = new google.visualization.PieChart(document.getElementById('piechart_server_status'));  
                          chart.draw(data, options); 
 
@@ -90,6 +91,7 @@
                     var array = JSON.parse(serverData);
                     var data = google.visualization.arrayToDataTable(array);  
                     $("#loader-copy").hide();
+                    loadSidebarLength();
                     var options = {  
                         title: 'Percentage of Windows LOG Copy Success and Failure',  
                         is3D:true,  

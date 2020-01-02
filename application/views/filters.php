@@ -2,7 +2,7 @@
   <form name="search_frm" id="search_frm" method="get" action="index.php" 
      enctype="multipart/form-data" class="form-inline">  
       <div class=" form-group">
-        <span class="btn btn-warning" onclick="exportTableToExcel()" serverType="<?php echo PLATFORM; ?>" id="export"  data-toggle="tooltip"  title="Export to File">
+        <span class="btn btn-primary" onclick="exportTableToExcel()" serverType="<?php echo PLATFORM; ?>" id="export"  data-toggle="tooltip"  title="Export to File">
           <span class="glyphicon glyphicon-export" style="color:white;"></span>
         </span>
       </div>
@@ -60,7 +60,7 @@
         <div class="form-group ">
             <!-- <button type="submit" class="btn btn-warning font12"  id="search" type="copies" data-toggle="tooltip" title="search">Search</button> -->
 
-            <span class="btn btn-danger" onclick="search_frm.submit();" data-toggle="tooltip" title="Search">
+            <span class="btn btn-primary" onclick="search_frm.submit();" data-toggle="tooltip" title="Search">
               <span class="glyphicon glyphicon-search" style="color:white;"></span>
           </span>
 

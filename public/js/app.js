@@ -11,7 +11,7 @@ particlesJS.load('particles-js', 'particles.json', function() {
 
 /* Otherwise just put the config content (json): */
 
-particlesJS('particles-js',
+/*particlesJS('particles-js',
   
   {
     "particles": {
@@ -131,7 +131,7 @@ particlesJS('particles-js',
   }
 
 );
-
+*/
 var urlParams = new URLSearchParams(location.search); 
 
 $('.datepicker.statusdate').datetimepicker({
@@ -145,7 +145,10 @@ $('.datepicker.statusdate').datetimepicker({
   //autoclose:true,
   // defaultViewDate: "today",
   // todayHighlight: true,
-  // orientation:"bottom"
+  widgetPositioning:{
+        horizontal: 'auto',
+        vertical: 'bottom'
+    }
 });
 
 $('.datepicker.statusdate').on('dp.change', function(e) {
@@ -181,7 +184,10 @@ $('.datepicker.start-date').datetimepicker({
    //autoclose:true,
   // defaultViewDate: "today",
   // todayHighlight: true,
-  // orientation:"bottom"
+  widgetPositioning:{
+        horizontal: 'auto',
+        vertical: 'bottom'
+    }
 });
 
 $('.datepicker.end-date').datetimepicker({
@@ -195,7 +201,10 @@ $('.datepicker.end-date').datetimepicker({
   //autoclose:true,
   // defaultViewDate: "today",
   // todayHighlight: true,
-  // orientation:"bottom"
+  widgetPositioning:{
+        horizontal: 'auto',
+        vertical: 'bottom'
+    }
 });
 
 $(document).ready(function(){
@@ -231,7 +240,11 @@ $(document).ready(function(){
     container: 'body'  
   }).attr('data-original-title', name != '' ? name.join(',') : 'Please select server');
 
-  var main_container_height = $(".main-content").height();
-  $("ul#serverList").css('max-height', main_container_height+'px');
+  loadSidebarLength();
  
 });
+
+var loadSidebarLength = function(){
+  var main_container_height = $(".main-content").height();
+  $("ul#serverList").css('max-height', (main_container_height)+'px');
+}

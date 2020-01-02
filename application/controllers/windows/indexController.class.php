@@ -18,7 +18,7 @@ class IndexController extends BaseController{
         $isMain = true;
         $breadcrumb = array();
         $breadcrumbs[] =  (object) [
-            'title' => 'Home',
+            'title' => '<i class="fa fa-home"></i> Home',
             'link' =>  "index.php",
             "isActive" => false
           ];
@@ -62,7 +62,7 @@ class IndexController extends BaseController{
         $isMain = true;
         $breadcrumb = array();
         $breadcrumbs[] =  (object) [
-            'title' => 'Home',
+            'title' => '<i class="fa fa-home"></i> Home',
             'link' =>  "index.php",
             "isActive" => false
           ];
@@ -106,7 +106,7 @@ class IndexController extends BaseController{
         $isMain = true;
         $breadcrumb = array();
         $breadcrumbs[] =  (object) [
-            'title' => 'Home',
+            'title' => '<i class="fa fa-home"></i> Home',
             'link' =>  "index.php",
             "isActive" => false
           ];
@@ -308,7 +308,7 @@ class IndexController extends BaseController{
         $isMain = true;
         $breadcrumb = array();
         $breadcrumbs[] =  (object) [
-            'title' => 'Home',
+            'title' => '<i class="fa fa-home"></i> Home',
             'link' =>  "index.php",
             "isActive" => false
           ];
@@ -362,7 +362,7 @@ class IndexController extends BaseController{
         $isMain = true;
         $breadcrumb = array();
         $breadcrumbs[] =  (object) [
-            'title' => 'Home',
+            'title' => '<i class="fa fa-home"></i> Home',
             'link' =>  "index.php",
             "isActive" => false
           ];

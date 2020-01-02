@@ -1,9 +1,23 @@
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb" style="padding: 12px;">
-    <?php foreach ($breadcrumbs as $breadcrumb) { 
+<nav aria-label="breadcrumb" class="breadcrumb flat">
+    <!-- <ol class="breadcrumb"> -->
+    <?php 
+    /*foreach ($breadcrumbs as $breadcrumb) { 
          echo '<li class="breadcrumb-item ' . ($breadcrumb->isActive == true ? 'active " aria-current="page"' : '"') . '>'.
-         (isset($breadcrumb->link) ? '<a href="'.$breadcrumb->link .'">'. $breadcrumb->title. '</a>': $breadcrumb->title) .'</li>';
+         (isset($breadcrumb->link) ? '<a href="'.$breadcrumb->link .'">'. $breadcrumb->title. '</a>': '<a href="#">'.$breadcrumb->title.'</a>') .'</li>';
+    }*/
+    ?>
+    <!-- </ol> -->
+
+    <!-- <div class="breadcrumb flat"> -->
+    <?php 
+        foreach ($breadcrumbs as $breadcrumb) { 
+         echo '<a class=" ' . ($breadcrumb->isActive == true ? 'active " aria-current="page"' : '"') .
+         (isset($breadcrumb->link) ? ' href="'.$breadcrumb->link .'" ': ' '). '>'.$breadcrumb->title.'</a>';
     }
     ?>
-    </ol>
+    <!-- <a class="" href="#">test</a>
+    <a class="" href="#">test</a>
+    <a class="" href="#">test</a> -->
+  
+<!-- </div> -->
 </nav>

@@ -1,5 +1,5 @@
 <ul class="nav nav-pills nav-stacked">
-    <li class="active"><a href="<?php echo  $lnavElement['link']; ?>"><?php echo $lnavElement['element']; ?></a></li>
+    <li class="active" style="  text-align:center;"><a href="<?php echo  $lnavElement['link']; ?>"><?php echo $lnavElement['element']; ?></a></li>
     <!--<li><a href="#">Window Server</a></li>
     <li><a href="#">Linux Server</a></li>-->
 </ul>
