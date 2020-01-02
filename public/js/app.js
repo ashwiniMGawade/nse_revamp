@@ -136,7 +136,7 @@ var urlParams = new URLSearchParams(location.search);
 
 $('.datepicker.statusdate').datetimepicker({
   maxDate: moment(),
-  date:startDate,
+  date: moment().subtract(1, 'days').startOf('day'),
   useCurrent: false,
   format: 'YYYY-MM-DD',
   // format:"YYYY-MM-DDTHH:MM:SS.SSSZ"
