@@ -32,14 +32,15 @@ class LinuxCopyModel extends Model{
         if($date) {
             $sqlDate = "date('$date')";
             if( $date == "today") {
-                $sqlDate = "date(CURDATE() - INTERVAL 1 DAY)";
+                $date =  date('Y-m-d',strtotime("-1 days"));
+                $sqlDate = "date('$date')";
             }
             $sql .= " and date(nselogmanagement.unixlog.starttime) = $sqlDate";
         }
 
         $sql .= "  group by serverlist.servername;";
 
-        // print_R($sql);
+        //  print_R($sql);exit;
        
         $wincopies = $this->db->getAll($sql);
 

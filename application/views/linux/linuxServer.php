@@ -46,7 +46,8 @@
                             //  value = (value == "failure"? "failed": value);
                             //  urlAppend += value !== ''? "&status="+value.toLowerCase() : "";
                              if(urlParams.get('serverStatus') != null && value == "run") {
-                                 var s = moment().startOf('day');;
+                                 var s = moment().startOf('day');
+                                 s.subtract(1, 'days');
                                  if (urlParams.get('serverStatus') != 'today') {
                                     var s =  moment(urlParams.get('serverStatus')).startOf('day');
                                  }
