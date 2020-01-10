@@ -10,6 +10,6 @@
 
 <footer class="navbar-default navbar-fixed-bottom">
     <div class="container">
-        <small>Copyright © 2019 NetApp. All rights reserved.</small>
+        <small>Copyright © <?php echo date('Y'); ?> NetApp. All rights reserved.</small>
     </div>
 </footer>
