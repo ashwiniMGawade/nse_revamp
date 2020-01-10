@@ -203,6 +203,38 @@ class IndexController extends BaseController{
     
     }
 
+    public function downloadServerStatusAction(){
+        $serverStatus = 'today';
+        if (isset($_GET['serverStatus']) && !empty($_GET['serverStatus'])) {      
+            $serverStatus = urldecode($_GET['serverStatus']);
+        }
+
+        $windowsCopyModel =new WindowsCopyModel("nselogmanagement.windowslog");
+        $copies = $windowsCopyModel->getWindowsServerStatus($serverStatus);
+
+        $windowsServerModel = new ServerModel('nselogmanagement.serverlist');
+        $where1 = 'nselogmanagement.serverlist.flag = "Windows" ';
+        $where1 .= ' and nselogmanagement.serverlist.logcollection = "Enabled"';  
+
+        $serversPresent = array_column($copies, 'servername');
+        if (count($serversPresent) > 0) {
+            $where1 .= ' and nselogmanagement.serverlist.servername not in ("'. implode('","', $serversPresent). '")';
+        }
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            $fieldname = "nselogmanagement.serverlist.servername";          
+            $where1 .= 'and (';
+            foreach($_GET['name'] as $servername) {
+                $where1 .= 'LOWER('.$fieldname.') =LOWER("'. $servername.'") or ';
+            }
+            $where1 .= ' 0 ) ';
+        }
+        $data = $windowsServerModel->pageRows(0, 100000, $where1);
+        download_send_headers("data_export_windows_Not_Run_serverStatus_" .($serverStatus == "today" ?  date('Y-m-d',strtotime("-1 days")) : $serverStatus)  . ".csv");
+        echo array2csv($data);
+        die();
+    
+    }
+
     public function getDataAction() {     
         $serverName = array();
         if (isset($_POST['name']) && !empty($_POST['name'])) {      
@@ -288,6 +320,17 @@ class IndexController extends BaseController{
         $serversPresent = array_column($copies, 'servername');
         if (count($serversPresent) > 0) {
             $where1 .= ' and nselogmanagement.serverlist.servername not in ("'. implode('","', $serversPresent). '")';
+        }
+
+        $allServersInDropDown = $windowsServerModel->pageRows(0, 2000, $where1);
+
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            $fieldname = "nselogmanagement.serverlist.servername";          
+            $where1 .= 'and (';
+            foreach($_GET['name'] as $servername) {
+                $where1 .= 'LOWER('.$fieldname.') =LOWER("'. $servername.'") or ';
+            }
+            $where1 .= ' 0 ) ';
         }
 
         $paginateOptions = paginate( $windowsServerModel, $rowsperpage, $where1);

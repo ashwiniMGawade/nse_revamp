@@ -195,7 +195,39 @@ class IndexController extends BaseController{
         $sortingInfo = $this->getSortinginfo(); 
         $data = $model->pageRows(0, 100000, $where, $sortingInfo['order_by'], $sortingInfo['sort']);
 
-        download_send_headers("data_export_windows_" . date("Y-m-d") . ".csv");
+        download_send_headers("data_export_linux_" . date("Y-m-d") . ".csv");
+        echo array2csv($data);
+        die();
+    
+    }
+
+    public function downloadServerStatusAction(){
+        $serverStatus = 'today';
+        if (isset($_GET['serverStatus']) && !empty($_GET['serverStatus'])) {      
+            $serverStatus = urldecode($_GET['serverStatus']);
+        }
+
+        $linuxCopyModel = new LinuxCopyModel("nselogmanagement.unixlog");
+        $copies = $linuxCopyModel->getLinuxServerStatus($serverStatus);
+
+        $linuxServerModel = new ServerModel('nselogmanagement.serverlist');
+        $where1 = 'nselogmanagement.serverlist.flag = "Unix" ';
+        $where1 .= ' and nselogmanagement.serverlist.logcollection = "Enabled"';  
+
+        $serversPresent = array_column($copies, 'servername');
+        if (count($serversPresent) > 0) {
+            $where1 .= ' and nselogmanagement.serverlist.servername not in ("'. implode('","', $serversPresent). '")';
+        }
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            $fieldname = "nselogmanagement.serverlist.servername";          
+            $where1 .= 'and (';
+            foreach($_GET['name'] as $servername) {
+                $where1 .= 'LOWER('.$fieldname.') =LOWER("'. $servername.'") or ';
+            }
+            $where1 .= ' 0 ) ';
+        }
+        $data = $linuxServerModel->pageRows(0, 100000, $where1);
+        download_send_headers("data_export_liunx_Not_Run_serverStatus_" . ($serverStatus == "today" ?  date('Y-m-d',strtotime("-1 days")) : $serverStatus) . ".csv");
         echo array2csv($data);
         die();
     
@@ -266,6 +298,7 @@ class IndexController extends BaseController{
         if (isset($_GET['serverStatus']) && !empty($_GET['serverStatus'])) {      
             $serverStatus = urldecode($_GET['serverStatus']);
         }
+
         $linuxCopyModel = new LinuxCopyModel("nselogmanagement.unixlog");
         $copies = $linuxCopyModel->getLinuxServerStatus($serverStatus);
 
@@ -280,6 +313,16 @@ class IndexController extends BaseController{
             $where1 .= ' and nselogmanagement.serverlist.servername not in ("'. implode('","', $serversPresent). '")';
         }
 
+        $allServersInDropDown = $linuxServerModel->pageRows(0, 2000, $where1);
+
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            $fieldname = "nselogmanagement.serverlist.servername";          
+            $where1 .= 'and (';
+            foreach($_GET['name'] as $servername) {
+                $where1 .= 'LOWER('.$fieldname.') =LOWER("'. $servername.'") or ';
+            }
+            $where1 .= ' 0 ) ';
+        }
         $paginateOptions = paginate( $linuxServerModel, $rowsperpage, $where1);
 
         $offset = $paginateOptions["offset"];
@@ -309,7 +352,7 @@ class IndexController extends BaseController{
         if (isset($_GET['serverStatus']) && !empty($_GET['serverStatus'])) {
             $link = "index.php?p=linux&a=serverStatus&serverStatus=".$_GET['serverStatus'];
             $breadcrumbs[] =  (object) [
-                'title' => "Logs not run on ". $_GET['serverStatus'],
+                'title' => "Logs not run on ". ($_GET['serverStatus'] == "today" ? "Yesterday" : $_GET['serverStatus']),
                 "isActive" => true,
                 "link" => $link
             ];
